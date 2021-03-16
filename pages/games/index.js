@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import Head from 'next/head';
+
 import Link from 'next/link';
 
 export async function getServerSideProps() {
@@ -12,7 +11,7 @@ export async function getServerSideProps() {
 
 export default function Games(props) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Games</title>
       </Head>
@@ -22,7 +21,9 @@ export default function Games(props) {
       <div>
         <ul>
           {props.games.map((game) => (
-            <li key={`game-${game.name}`} />
+            <li key={`game-${game.id}`}>
+              <p>{game.name}</p>
+            </li>
           ))}
         </ul>
       </div>

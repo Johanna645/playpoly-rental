@@ -1,7 +1,7 @@
 import postgres from 'postgres';
 import camelcaseKeys from 'camelcase-keys';
 require('dotenv-safe').config();
-const camelcaseKeys = require('camelcase-keys');
+//const camelcaseKeys = require('camelcase-keys');
 
 function connectOneTimeToDatabase() {
   let sql;
