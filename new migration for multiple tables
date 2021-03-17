@@ -1,0 +1,47 @@
+create new migrations for each change (if needed) like add table, insert roles, add role id
+
+exports.up = async (sql) => {
+  await sql`
+CREATE TABLE roles(
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name VARCHAR(50)
+)
+`;
+}
+
+exports.down = async (sql) => {
+  await sql`
+    DROP TABLE roles
+  `;
+}
+
+and then the next ones instead of create table:
+in up:
+const roles = [
+  {name: 'Founder'},
+  {name: 'Developer'},
+  {name: 'Marketing'}
+]
+INSERT INTO roles ${sql(roles, 'name')}`;
+
+and in down:
+for (const role of roles) {
+  await sql`
+  DELETE FROM
+  roles
+  WHERE
+  name = ${role.name}
+  `;
+}
+
+and then to add stuff from another table in this version to an existing table
+ALTER TABLE
+  team_members
+ADD COLUMN
+  role_id INT REFERENCES roles (id)
+
+and in down
+ALTER TABLE
+  team_members
+DROP COLUMN
+  role_id
