@@ -62,6 +62,17 @@ export async function deleteGameById(id) {
   return camelcaseRecords(game)[0];
 }
 
+//this just extra for api safety, not implemented yet
+// export async function deleteGameByIdAndUserId(id, userId) {
+//   return await sql`
+//   DELETE FROM
+//   games
+//   WHERE
+//   id = ${id} AND user_id = ${userId}
+//   RETURNING *
+//   `;
+// }
+
 // this might be something for an admin and reservations/bookings, to change status, so far my game doesn't have status. I just write it using update name till then (postgres update row)
 export async function updateGameNameById(name, id) {
   const game = await sql`
