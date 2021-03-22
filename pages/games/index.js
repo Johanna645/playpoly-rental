@@ -1,5 +1,5 @@
 import Head from 'next/head';
-
+import Layout from '../../components/Layout';
 import Link from 'next/link';
 
 export async function getServerSideProps() {
@@ -11,7 +11,7 @@ export async function getServerSideProps() {
 
 export default function Games(props) {
   return (
-    <div>
+    <>
       <Head>
         <title>Games</title>
       </Head>
@@ -22,11 +22,13 @@ export default function Games(props) {
         <ul>
           {props.games.map((game) => (
             <li key={`game-${game.id}`}>
-              <p>{game.name}</p>
+              <Link href={`/games/${game.id}`}>
+                <p>{game.name}</p>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-    </div>
+    </>
   );
 }

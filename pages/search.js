@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import Link from 'next/link';
+import Layout from '../components/Layout';
+import { css } from '@emotion/react';
 
 export async function getServerSideProps() {
   const { getAllGames } = await import('../util/database');
@@ -12,10 +14,15 @@ export async function getServerSideProps() {
 export default function Search(props) {
   const [inputValue, setInputValue] = useState();
   const [dropdownValue, setDropdownValue] = useState('4');
+  const [dropdownPlayerAmount, setDropdownPlayerAmount] = useState('1');
   const [gamesList, setGamesList] = useState([]);
 
   function handleInputChange(event) {
     setInputValue(event.target.value);
+  }
+
+  function handleDropdownPlayerAmountChange(event) {
+    setDropdownPlayerAmount(event.target.value);
   }
 
   function handleDropdownChange(event) {
@@ -50,8 +57,25 @@ export default function Search(props) {
     setGamesList(result);
   }
 
+  function filterByPlayerAmount() {
+    const chosenValue = Number(dropdownPlayerAmount);
+    const games = props.games;
+    const result = [];
+
+    for (let i = 0; i < games.length; i++) {
+      if (
+        games[i].playerMinimum === chosenValue ||
+        games[i].playerMaximum === chosenValue ||
+        games[i].playerMaximum > chosenValue
+      ) {
+        result.push(games[i]);
+      }
+    }
+    setGamesList(result);
+  }
+
   return (
-    <div>
+    <>
       <Head>
         <title>Search</title>
       </Head>
@@ -69,7 +93,13 @@ export default function Search(props) {
       <div>
         <label for="players">
           Choose amount of players:
-          <select name="players" id="players" type="integer">
+          <select
+            name="players"
+            id="players"
+            type="integer"
+            value={dropdownPlayerAmount}
+            onChange={handleDropdownPlayerAmountChange}
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -77,6 +107,9 @@ export default function Search(props) {
             <option value="5">4+</option>
           </select>
         </label>
+        <div>
+          <button onClick={filterByPlayerAmount}>filter</button>
+        </div>
       </div>
       <div>
         <label for="age">
@@ -100,8 +133,12 @@ export default function Search(props) {
         <button onClick={filterByAge}>filter</button>
       </div>{' '}
       {gamesList.map((game) => (
-        <h1 key={game.name}>{game.name}</h1>
+        <h1 key={game.name}>
+          <Link href={`/games/${game.id}`}>
+            <p>{game.name}</p>
+          </Link>
+        </h1>
       ))}
-    </div>
+    </>
   );
 }
