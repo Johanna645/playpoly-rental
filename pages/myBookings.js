@@ -1,7 +1,9 @@
 import Head from 'next/head';
-import { css } from '@emotion/react';
-import Link from 'next/link';
+// import { css } from '@emotion/react';
+// import Link from 'next/link';
 import Cookies from 'js-cookie';
+// import { createNewRental } from '../util/database';
+// import { useState } from 'react';
 
 export default function MyBookings(props) {
   function handleClickToRemove(gameId) {
@@ -10,6 +12,12 @@ export default function MyBookings(props) {
     );
     Cookies.set('bookings', JSON.stringify(newCookie));
     return false; // returns nothing, function is supposed just to filter and set the cookie anew
+  }
+
+  async function rentGame(id) {
+    const response = await fetch(`/api/gameId/${id}`);
+    const data = await response.json();
+    console.log(data);
   }
 
   return (
@@ -36,12 +44,26 @@ export default function MyBookings(props) {
                   Remove game
                 </button>
               </td>
+              <td>
+                <button
+                  onClick={() =>
+                    // createNewRental(props.user.id, gameFromCookie.gameId)
+                    rentGame(gameFromCookie.gameId)
+                  }
+                  value="Rent"
+                >
+                  Rent game
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {/* <button
+      here possible still old bookings listed and empty bookings-cookie
+      Cookies.remove('bookings')
 
-      {/* here possible still old bookings listed and then confirm bookings button to send info over to rentals / inventory table in the database */}
+      </button> */}
     </>
   );
 }
@@ -51,6 +73,14 @@ export async function getServerSideProps(context) {
 
   const { getAllGames } = await import('../util/database');
   const games = await getAllGames();
+
+  const { getUserIdFromSessions } = await import('../util/database');
+  const token = context.req.cookies.session;
+  const userId = await getUserIdFromSessions(token);
+  const id = userId.userId;
+
+  const { getUserById } = await import('../util/database');
+  const user = await getUserById(id);
 
   const bookings = context.req.cookies.bookings;
   const bookingsList = bookings ? JSON.parse(bookings) : [];
@@ -69,5 +99,5 @@ export async function getServerSideProps(context) {
     }
   });
 
-  return { props: { userBookings: userBookings } };
+  return { props: { games: games, user: user, userBookings: userBookings } };
 }

@@ -7,6 +7,7 @@ exports.up = async (sql) => {
 			player_maximum INTEGER,
 			age INTEGER,
 			description TEXT
+
 		);
 	`;
 };

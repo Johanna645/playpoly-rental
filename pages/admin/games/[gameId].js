@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 export default function EditGame(props) {
   const router = useRouter();
   // this might be handy for the reservation stuff
-  const [state, setState] = useState('');
+  // const [state, setState] = useState(props.game?.state);
   // example
   const [name, setName] = useState(props.game?.name);
 
@@ -46,7 +46,7 @@ export default function EditGame(props) {
             body: JSON.stringify({ name: name }),
           }); // here the information is passed on to the api-[gameId]
 
-          //this needs to change still
+          // this needs to change still
           window.location.reload();
         }}
       >

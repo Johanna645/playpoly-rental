@@ -10,6 +10,8 @@ type Props = { csrfToken: string };
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [errors, setErrors] = useState<Error[]>([]);
@@ -72,7 +74,24 @@ export default function Register(props: Props) {
             onChange={(event) => setPassword(event.currentTarget.value)}
           />
         </label>
-        {/* email and phone number fields are not connected with anything yet, they are not fields in the database yet, but here only as placeholders at the moment for later use */}
+        {/* following fields are not connected with anything yet, they are not fields in the database yet, but here only as placeholders at the moment for later use */}
+
+        <label>
+          First name:
+          <input
+            value={firstName}
+            onChange={(event) => setFirstName(event.currentTarget.value)}
+          />
+        </label>
+
+        <label>
+          Last name:
+          <input
+            value={lastName}
+            onChange={(event) => setLastName(event.currentTarget.value)}
+          />
+        </label>
+
         <label>
           E-Mail:
           <input

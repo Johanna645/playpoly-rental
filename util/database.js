@@ -2,6 +2,7 @@ import { generateToken } from './sessions';
 import postgres from 'postgres';
 import camelcaseKeys from 'camelcase-keys';
 require('dotenv-safe').config();
+
 // const camelcaseKeys = require('camelcase-keys');
 
 // import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
@@ -44,13 +45,14 @@ export async function createNewGame(
   player_maximum,
   age,
   description,
+  user_id_rental
 ) {
   const game = await sql`
     INSERT INTO games(name,
 	player_minimum, player_maximum,
 	age,
-	description)
-	VALUES (${name}, ${player_minimum}, ${player_maximum}, ${age}, ${description})
+	description, user_id_rental)
+	VALUES (${name}, ${player_minimum}, ${player_maximum}, ${age}, ${description}, ${null})
   RETURNING *
   `;
   return camelcaseRecords(game)[0];
@@ -78,37 +80,90 @@ export async function deleteGameByIdAndUserId(id, userId) {
   `;
 }
 
-// this might be something for an admin and reservations/bookings, to change status, so far my game doesn't have status. I just write it using update name till then (postgres update row)
-export async function updateGameNameById(name, id) {
+export async function createNewRental(userId, gameId) {
+  const newRental = await sql`
+     UPDATE
+       games
+     SET
+       user_id_rental = ${userId}
+     WHERE
+       id = ${gameId}
+ `;
+  return camelcaseRecords(newRental)[0];
+}
+
+export async function handleRentalReturn(gameId) {
   const game = await sql`
   UPDATE
     games
   SET
-    name = ${name}
+    user_id_rental = null
   WHERE
-    id = ${id}
-  RETURNING *
+    id = ${gameId}
   `;
   return camelcaseRecords(game)[0];
 }
 
-// this is something for the late phase, just mock now, for joins, change names and all then to be fitting
-// SQL JOINS
-export async function getTeamMemberWithRoleById(id) {
-  const teamMembers = await sql`
-    SELECT
-      team_members.id as team_member_id,
-      team_members.first_name as first_name,
-      roles.name as role_name
+export async function getAllUsers() {
+  const users = await sql`SELECT * FROM users`;
+  return camelcaseRecords(users);
+}
 
+export async function getSingleUser(id) {
+  const user = await sql`SELECT * FROM users WHERE id = ${id}`;
+  return camelcaseRecords(user)[0];
+}
+
+// export async function deleteSingleRental(user_id, game_id) {
+//   const rentalToBeDeleted = await sql`
+//     DELETE FROM
+//       rentals
+// 	  WHERE
+//       user_id = ${user_id} AND game_id = ${game_id}
+//     RETURNING *
+//   `;
+//   return camelcaseRecords(rentalToBeDeleted)[0];
+// }
+
+// export async function getAllRentalsFromUser(user_id) {
+//   const rentalsFromUser = await sql`SELECT * FROM rentals WHERE user_id = ${user_id}`;
+//   return camelcaseRecords(rentalsFromUser);
+// }
+
+// this is something for the later phase, just mock now
+// SQL JOINS
+// export async function getUserWithRoleById(id) {
+//   const user = await sql`
+//     SELECT
+//       user.id as user_id,
+//       user.first_name as first_name,
+//       roles.name as role_name
+
+//     FROM
+//       users,
+//       roles
+//     WHERE
+//       user.id = ${id} AND
+//       user.role_id = roles.id
+//   `;
+//   return camelcaseRecords(user)[0];
+// }
+
+export async function getUserIdFromSessions(sessionToken) {
+  if (!sessionToken) {
+    return undefined;
+  } // if there is no token, then the database query will not be done
+
+  const sessions = await sql`
+    SELECT
+      user_id
     FROM
-      team_members,
-      roles
+      sessions
     WHERE
-      team_members.id = ${id} AND
-      team_members.role_id = roles.id
+      token = ${sessionToken} AND
+      expiry > NOW()
   `;
-  return camelcaseRecords(teamMembers)[0];
+  return camelcaseRecords(sessions)[0];
 }
 
 export async function getSessionByToken(sessionToken) {

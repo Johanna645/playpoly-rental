@@ -10,6 +10,7 @@ import { addGameToBookings } from '../../util/cookies';
 export default function Game(props) {
   // 2. state variable with the value from the cookie read in getServerSideProps
   const [bookings, setBookings] = useState(props.bookingsCookieValue);
+  // const [reservation, setReservation] = useState(props.reservation); // not there yet!!
 
   // 3. After adding the bookings with the button, ( = every time the state variable updates,) set a new value to the cookie, sent also to server when refreshed or loaded
   useEffect(() => {
@@ -19,6 +20,18 @@ export default function Game(props) {
   if (!props.game) {
     return <div>No such game</div>;
   }
+
+  // function disableAndEnableButtons() {
+  //   if (props.game.userIdRental === null) {
+  //     document.getElementById('booking').disabled = false;
+  //     document.getElementById('reservation').disabled = true;
+  //   }
+  //   if (props.game.userIdRental !== null) {
+  //     document.getElementById('booking').disabled = true;
+  //     document.getElementById('reservation').disabled = false;
+  //   }
+  // }
+  // disableAndEnableButtons();
 
   return (
     <>
@@ -38,6 +51,7 @@ export default function Game(props) {
       <div> game description: {props.game.description}</div>
 
       <button
+        id="booking"
         onClick={() => {
           const newBooking = addGameToBookings(bookings, props.game.id);
 
@@ -45,6 +59,21 @@ export default function Game(props) {
         }}
       >
         Add to My Bookings
+      </button>
+      {/* following button is just a placeholder at the moment */}
+      <button
+        id="reservation"
+        onClick={() => {
+          const newReservation = addGameToReservations(
+            reservations,
+            props.game.id,
+          );
+
+          setReservations(newReservation);
+        }}
+      >
+        Game unavailable <br />
+        Make a reservation
       </button>
     </>
   );
@@ -58,7 +87,7 @@ export async function getServerSideProps(context) {
   if (!game) {
     context.res.statusCode = 404;
   }
-  console.log(id);
+
   // 1. Cookie is read and if there is no cookie value yet, it will start an empty array
   const bookings = context.req.cookies.bookings;
 

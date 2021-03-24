@@ -31,16 +31,20 @@ export default function Search(props) {
 
   function filterByName() {
     const text = inputValue;
+    const textWithCapital = text[0].toUpperCase() + text.slice(1);
 
     const games = props.games;
     const result = [];
 
     for (let i = 0; i < games.length; i++) {
-      if (games[i].name.includes(text) || games[i].description.includes(text)) {
+      if (
+        games[i].name.includes(textWithCapital) ||
+        games[i].description.includes(textWithCapital)
+      ) {
         result.push(games[i]);
       }
     }
-    console.log(result);
+
     setGamesList(result);
   }
 
