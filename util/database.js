@@ -45,7 +45,7 @@ export async function createNewGame(
   player_maximum,
   age,
   description,
-  user_id_rental
+  user_id_rental,
 ) {
   const game = await sql`
     INSERT INTO games(name,
@@ -80,6 +80,40 @@ export async function deleteGameByIdAndUserId(id, userId) {
   `;
 }
 
+export async function isGameAvailable(gameId) {
+  const game = await sql`
+  SELECT
+    user_id_rental
+  FROM
+    games
+  WHERE
+    id = ${gameId}
+  `;
+
+  if (camelcaseRecords(game)[0] !== null) {
+    return false;
+  }
+
+  return true;
+}
+
+export async function isGameAvailableForReservation(gameId) {
+  const game = await sql`
+  SELECT
+    user_id_reservation
+  FROM
+    games
+  WHERE
+    id = ${gameId}
+  `;
+
+  if (camelcaseRecords(game)[0] !== null) {
+    return false;
+  }
+
+  return true;
+}
+
 export async function createNewRental(userId, gameId) {
   const newRental = await sql`
      UPDATE
@@ -104,6 +138,18 @@ export async function handleRentalReturn(gameId) {
   return camelcaseRecords(game)[0];
 }
 
+export async function createReservation(userId, gameId) {
+  const newReservation = await sql`
+     UPDATE
+       games
+     SET
+       user_id_reservation = ${userId}
+     WHERE
+       id = ${gameId}
+ `;
+  return camelcaseRecords(newReservation)[0];
+}
+
 export async function getAllUsers() {
   const users = await sql`SELECT * FROM users`;
   return camelcaseRecords(users);
@@ -113,22 +159,6 @@ export async function getSingleUser(id) {
   const user = await sql`SELECT * FROM users WHERE id = ${id}`;
   return camelcaseRecords(user)[0];
 }
-
-// export async function deleteSingleRental(user_id, game_id) {
-//   const rentalToBeDeleted = await sql`
-//     DELETE FROM
-//       rentals
-// 	  WHERE
-//       user_id = ${user_id} AND game_id = ${game_id}
-//     RETURNING *
-//   `;
-//   return camelcaseRecords(rentalToBeDeleted)[0];
-// }
-
-// export async function getAllRentalsFromUser(user_id) {
-//   const rentalsFromUser = await sql`SELECT * FROM rentals WHERE user_id = ${user_id}`;
-//   return camelcaseRecords(rentalsFromUser);
-// }
 
 // this is something for the later phase, just mock now
 // SQL JOINS

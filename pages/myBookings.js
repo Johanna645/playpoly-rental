@@ -20,6 +20,24 @@ export default function MyBookings(props) {
     console.log(data);
   }
 
+  async function makeAReservationForGame(idReservation) {
+    const response = await fetch(`/api/reservation/${idReservation}`);
+    const data = await response.json();
+    console.log(data);
+  }
+
+  // function disableAndEnableButtons() {
+  //  if (props.game.userIdRental === null) {
+  //     document.getElementById('booking').disabled = false;
+  //     document.getElementById('reservation').disabled = true;
+  //   }
+  //   if (props.game.userIdRental !== null) {
+  //     document.getElementById('booking').disabled = true;
+  //     document.getElementById('reservation').disabled = false;
+  //   }
+  // }
+  // disableAndEnableButtons();
+
   return (
     <>
       <Head>
@@ -46,13 +64,18 @@ export default function MyBookings(props) {
               </td>
               <td>
                 <button
-                  onClick={() =>
-                    // createNewRental(props.user.id, gameFromCookie.gameId)
-                    rentGame(gameFromCookie.gameId)
-                  }
+                  onClick={() => rentGame(gameFromCookie.gameId)}
                   value="Rent"
                 >
                   Rent game
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() => makeAReservationForGame(gameFromCookie.gameId)}
+                  value="Reservation"
+                >
+                  Make a reservation
                 </button>
               </td>
             </tr>

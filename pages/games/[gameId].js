@@ -21,17 +21,23 @@ export default function Game(props) {
     return <div>No such game</div>;
   }
 
-  // function disableAndEnableButtons() {
-  //   if (props.game.userIdRental === null) {
-  //     document.getElementById('booking').disabled = false;
-  //     document.getElementById('reservation').disabled = true;
-  //   }
-  //   if (props.game.userIdRental !== null) {
-  //     document.getElementById('booking').disabled = true;
-  //     document.getElementById('reservation').disabled = false;
-  //   }
-  // }
-  // disableAndEnableButtons();
+  async function makeAReservationForGame(idReservation) {
+    const response = await fetch(`/api/reservation/${idReservation}`);
+    const data = await response.json();
+    console.log(data);
+  }
+
+  function disableAndEnableButtons() {
+    if (props.game.userIdRental === null) {
+      document.getElementById('booking').disabled = false;
+      document.getElementById('reservation').disabled = true;
+    }
+    if (props.game.userIdRental !== null) {
+      document.getElementById('booking').disabled = true;
+      document.getElementById('reservation').disabled = false;
+    }
+  }
+  disableAndEnableButtons();
 
   return (
     <>
@@ -60,19 +66,10 @@ export default function Game(props) {
       >
         Add to My Bookings
       </button>
-      {/* following button is just a placeholder at the moment */}
       <button
-        id="reservation"
-        onClick={() => {
-          const newReservation = addGameToReservations(
-            reservations,
-            props.game.id,
-          );
-
-          setReservations(newReservation);
-        }}
+        onClick={() => makeAReservationForGame(props.game.id)}
+        value="Reservation"
       >
-        Game unavailable <br />
         Make a reservation
       </button>
     </>

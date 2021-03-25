@@ -1,7 +1,7 @@
 import {
-  createNewRental,
+  createReservation,
   getUserIdFromSessions,
-  isGameAvailable,
+  isGameAvailableForReservation,
 } from '../../../util/database';
 
 export default async function handler(req, res) {
@@ -21,12 +21,14 @@ export default async function handler(req, res) {
   const userId = await getUserIdFromSessions(token);
   const id = userId.userId;
 
-  const availability = await isGameAvailable(gameId);
+  const availability = await isGameAvailableForReservation(gameId);
   if (availability === false) {
-    return res.status(404).send({ message: 'Game is at the moment rented' });
+    return res.status(404).send({
+      message: 'Game is rented and there are already reservations awaiting',
+    });
   }
 
-  createNewRental(id, gameId);
-  const response = JSON.stringify('rental approved');
+  createReservation(id, gameId);
+  const response = JSON.stringify('reservation noted');
   res.send(response);
 }
