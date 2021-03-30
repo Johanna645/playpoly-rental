@@ -23,7 +23,7 @@ export default function Games(props) {
           {props.games.map((game) => (
             <li key={`game-${game.id}`}>
               <Link href={`/games/${game.id}`}>
-                <p>{game.name}</p>
+                <a>{game.name}</a>
               </Link>
             </li>
           ))}
