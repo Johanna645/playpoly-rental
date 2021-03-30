@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 // refactor type alias, so what was csrfToken as props is now just Props
 type Props = {
   csrfToken: string;
-  setIsSessionStateStale: Dispatch<SetStateAction<boolean>>; // what is this?
+  refreshIsSessionValid: () => Promise<void>;
 };
 
 export default function Login(props: Props) {
@@ -62,7 +62,7 @@ export default function Login(props: Props) {
                 : router.query.returnTo;
 
               router.push(returnTo || '/');
-              props.setIsSessionStateStale(true); // what is this?
+              props.refreshIsSessionValid();
             }}
           >
             <div className="mb-3">

@@ -37,13 +37,8 @@ export default function Layout(props) {
                   </Link>{' '}
                 </li>
                 <li className="nav-item">
-                  <Link href="/games">
-                    <a className="nav-link">Games</a>
-                  </Link>{' '}
-                </li>
-                <li className="nav-item">
                   <Link href="/search">
-                    <a className="nav-link">Search</a>
+                    <a className="nav-link">Games</a>
                   </Link>{' '}
                 </li>
                 {!props.isSessionValid ? (
@@ -79,21 +74,22 @@ export default function Layout(props) {
                         </a>
                       </Link>
                     </li>
+
+                    {!props.isUserAdmin ? (
+                      <div />
+                    ) : (
+                      <li className="nav-item">
+                        <Link href="/admin/games/manage">
+                          <a>Admin</a>
+                        </Link>
+                      </li>
+                    )}
                   </>
                 )}
               </ul>
             </div>
           </div>
         </nav>
-        <div>
-          {!props.isUserAdmin ? (
-            <div />
-          ) : (
-            <Link href="/admin/games/manage">
-              <a>Admin</a>
-            </Link>
-          )}
-        </div>
       </header>
 
       <div className="container">{props.children}</div>

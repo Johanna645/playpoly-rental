@@ -1,25 +1,30 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
 import { css, Global } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Layout from '../components/Layout';
 // this is here to pass the function to Layout
 
 export default function App({ Component, pageProps }) {
   const [isSessionValid, setIsSessionValid] = useState(false);
-  const [isSessionStateStale, setIsSessionStateStale] = useState(true); // what this is i don't know
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+
+  const refreshIsSessionValid = useCallback(async () => {
+    console.log('refresh isSessionTokenValid');
+
+    const response = await fetch('/api/isSessionValid');
+    const newValue = (await response.json()).isSessionValid;
+    setIsSessionValid(newValue);
+
+    const adminResponse = await fetch('/api/isUserAdmin');
+    const isAdmin = (await adminResponse.json()).isUserAdmin;
+    setIsUserAdmin(isAdmin);
+  }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('/api/isSessionValid');
-      const newValue = (await response.json()).isSessionValid;
-      setIsSessionValid(newValue);
-      setIsSessionStateStale(false); //what is this?
-    }
-
-    if (isSessionStateStale) fetchData();
-    //fetchData();
-  }, [isSessionStateStale]);
+    console.log('useEffect');
+    refreshIsSessionValid(); // will get the state just once
+  }, [refreshIsSessionValid]);
 
   return (
     <>
@@ -35,10 +40,10 @@ export default function App({ Component, pageProps }) {
           }
         `}
       />
-      <Layout isSessionValid={isSessionValid}>
+      <Layout isSessionValid={isSessionValid} isUserAdmin={isUserAdmin}>
         <Component
           {...pageProps}
-          setIsSessionStateStale={setIsSessionStateStale}
+          refreshIsSessionValid={refreshIsSessionValid}
         />
       </Layout>
     </>

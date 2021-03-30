@@ -243,6 +243,7 @@ export async function getSessionByToken(sessionToken) {
       token = ${sessionToken} AND
       expiry > NOW()
   `;
+  console.log(sessions);
   return camelcaseRecords(sessions)[0];
 }
 
