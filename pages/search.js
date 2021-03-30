@@ -12,7 +12,7 @@ export async function getServerSideProps() {
 }
 
 export default function Search(props) {
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState('');
   const [dropdownValue, setDropdownValue] = useState('4');
   const [dropdownPlayerAmount, setDropdownPlayerAmount] = useState('1');
   const [gamesList, setGamesList] = useState([]);
@@ -30,16 +30,23 @@ export default function Search(props) {
   }
 
   function filterByName() {
+    /*
     const text = inputValue;
     const textWithCapital = text[0].toUpperCase() + text.slice(1);
+    */
+
+    const searchStringLowerCase = inputValue.toLowerCase();
 
     const games = props.games;
     const result = [];
 
     for (let i = 0; i < games.length; i++) {
+      const gameNameLowerCase = games[i].name.toLowerCase();
+      const gameDescriptionLowerCase = games[i].description.toLowerCase();
+
       if (
-        games[i].name.includes(textWithCapital) ||
-        games[i].description.includes(textWithCapital)
+        gameNameLowerCase.includes(searchStringLowerCase) ||
+        gameDescriptionLowerCase.includes(searchStringLowerCase)
       ) {
         result.push(games[i]);
       }
@@ -77,7 +84,19 @@ export default function Search(props) {
     }
     setGamesList(result);
   }
+  /*
+  function filter() {
+    // 1. alle spiele abfragen
 
+    // 2. filtern nach name
+
+    // 3. gefilterte liste filtern nach alter
+
+    // 4. gefilterte liste filtern nach anzahl spieler
+
+    let filtered =filterByName(props.games);
+  }
+*/
   return (
     <>
       <Head>
