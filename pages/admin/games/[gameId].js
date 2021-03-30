@@ -31,7 +31,11 @@ export default function EditGame(props) {
 
       <div>id: {props.game.id}</div>
       <div>name: {props.game.name} </div>
-      <input
+      <div>
+        is rented / reserved: {props.game.userIdRental} //{' '}
+        {props.game.userIdReservation}
+      </div>
+      {/* <input
         value={name}
         onChange={(event) => setName(event.currentTarget.value)}
       />
@@ -51,7 +55,7 @@ export default function EditGame(props) {
         }}
       >
         Change game name
-      </button>
+      </button> */}
 
       <button
         onClick={async () => {

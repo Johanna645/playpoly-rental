@@ -1,6 +1,8 @@
 import { generateToken } from './sessions';
 import postgres from 'postgres';
 import camelcaseKeys from 'camelcase-keys';
+import { serializeEmptyCookieServerSide } from './cookies';
+import { getCookieParser } from 'next/dist/next-server/server/api-utils';
 require('dotenv-safe').config();
 
 // const camelcaseKeys = require('camelcase-keys');
@@ -80,6 +82,32 @@ export async function deleteGameByIdAndUserId(id, userId) {
   `;
 }
 
+export async function isUserAdmin(id) {
+  const user = await sql`
+  SELECT
+    is_admin
+  FROM
+    users
+  WHERE
+    id = ${id}
+  `;
+  return camelcaseRecords(user)[0];
+}
+
+export async function makeUserAdmin(username, id) {
+  const staffMember = await sql`
+    UPDATE
+			users
+		SET
+			is_admin = true
+		WHERE
+			id = ${id} AND
+      username = ${username}
+
+  `;
+  return camelcaseRecords(staffMember)[0];
+}
+
 export async function isGameAvailable(gameId) {
   const game = await sql`
   SELECT
@@ -97,17 +125,22 @@ export async function isGameAvailable(gameId) {
   return true;
 }
 
-export async function isGameAvailableForReservation(gameId) {
+export async function canUserReserve(gameId) {
   const game = await sql`
   SELECT
-    user_id_reservation
+    user_id_reservation,
+    user_id_rental
   FROM
     games
   WHERE
     id = ${gameId}
   `;
+  // console.log(camelcaseRecords(game)[0].userIdReservation);
+  if (camelcaseRecords(game)[0].userIdReservation !== null) {
+    return false;
+  }
 
-  if (camelcaseRecords(game)[0] !== null) {
+  if (camelcaseRecords(game)[0].userIdRental === null) {
     return false;
   }
 

@@ -27,6 +27,6 @@ export default async function handler(req, res) {
   }
 
   createNewRental(id, gameId);
-  const response = JSON.stringify('rental approved');
+  const response = JSON.stringify('Rental approved');
   res.send(response);
 }

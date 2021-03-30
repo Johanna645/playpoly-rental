@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.css';
+
 import { css, Global } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';

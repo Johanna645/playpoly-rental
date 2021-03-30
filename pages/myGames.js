@@ -3,9 +3,11 @@ import Head from 'next/head';
 // import Link from 'next/link';
 import Cookies from 'js-cookie';
 // import { createNewRental } from '../util/database';
-// import { useState } from 'react';
+import { useState } from 'react';
 
-export default function MyBookings(props) {
+export default function MyGames(props) {
+  const [showRentalSuccess, setShowRentalSuccess] = useState(false);
+
   function handleClickToRemove(gameId) {
     const newCookie = JSON.parse(Cookies.get('bookings')).filter(
       (game) => game.gameId !== gameId,
@@ -26,28 +28,16 @@ export default function MyBookings(props) {
     console.log(data);
   }
 
-  // function disableAndEnableButtons() {
-  //  if (props.game.userIdRental === null) {
-  //     document.getElementById('booking').disabled = false;
-  //     document.getElementById('reservation').disabled = true;
-  //   }
-  //   if (props.game.userIdRental !== null) {
-  //     document.getElementById('booking').disabled = true;
-  //     document.getElementById('reservation').disabled = false;
-  //   }
-  // }
-  // disableAndEnableButtons();
-
   return (
     <>
       <Head>
-        <title>My Bookings</title>
+        <title>My Games</title>
       </Head>
 
       <table>
         <thead>
           <tr>
-            <th>Games you chose:</th>
+            <th>Games chosen:</th>
           </tr>
         </thead>
         <tbody>
@@ -64,6 +54,7 @@ export default function MyBookings(props) {
               </td>
               <td>
                 <button
+                  disabled={showRentalSuccess}
                   onClick={() => rentGame(gameFromCookie.gameId)}
                   value="Rent"
                 >
@@ -72,6 +63,7 @@ export default function MyBookings(props) {
               </td>
               <td>
                 <button
+                  disabled={!props.canUserReserve}
                   onClick={() => makeAReservationForGame(gameFromCookie.gameId)}
                   value="Reservation"
                 >
@@ -80,8 +72,14 @@ export default function MyBookings(props) {
               </td>
             </tr>
           ))}
+          <div>
+            {showRentalSuccess && (
+              <p>Rental of {props.gameFromCookie.name} accepted!</p>
+            )}
+          </div>
         </tbody>
       </table>
+
       {/* <button
       here possible still old bookings listed and empty bookings-cookie
       Cookies.remove('bookings')
@@ -94,16 +92,21 @@ export default function MyBookings(props) {
 export async function getServerSideProps(context) {
   // here maybe still list of possible old bookings out of the database
 
-  const { getAllGames } = await import('../util/database');
+  const {
+    getAllGames,
+    getUserIdFromSessions,
+    getUserById,
+    canUserReserve,
+  } = await import('../util/database');
   const games = await getAllGames();
 
-  const { getUserIdFromSessions } = await import('../util/database');
   const token = context.req.cookies.session;
   const userId = await getUserIdFromSessions(token);
   const id = userId.userId;
 
-  const { getUserById } = await import('../util/database');
   const user = await getUserById(id);
+
+  const isReservationPossible = await canUserReserve(id);
 
   const bookings = context.req.cookies.bookings;
   const bookingsList = bookings ? JSON.parse(bookings) : [];
@@ -122,5 +125,12 @@ export async function getServerSideProps(context) {
     }
   });
 
-  return { props: { games: games, user: user, userBookings: userBookings } };
+  return {
+    props: {
+      games: games,
+      user: user,
+      userBookings: userBookings,
+      canUserReserve: isReservationPossible,
+    },
+  };
 }

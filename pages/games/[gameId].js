@@ -10,7 +10,7 @@ import { addGameToBookings } from '../../util/cookies';
 export default function Game(props) {
   // 2. state variable with the value from the cookie read in getServerSideProps
   const [bookings, setBookings] = useState(props.bookingsCookieValue);
-  // const [reservation, setReservation] = useState(props.reservation); // not there yet!!
+  const [showBookingSuccess, setShowBookingSuccess] = useState(false);
 
   // 3. After adding the bookings with the button, ( = every time the state variable updates,) set a new value to the cookie, sent also to server when refreshed or loaded
   useEffect(() => {
@@ -26,18 +26,6 @@ export default function Game(props) {
     const data = await response.json();
     console.log(data);
   }
-
-  function disableAndEnableButtons() {
-    if (props.game.userIdRental === null) {
-      document.getElementById('booking').disabled = false;
-      document.getElementById('reservation').disabled = true;
-    }
-    if (props.game.userIdRental !== null) {
-      document.getElementById('booking').disabled = true;
-      document.getElementById('reservation').disabled = false;
-    }
-  }
-  disableAndEnableButtons();
 
   return (
     <>
@@ -58,20 +46,26 @@ export default function Game(props) {
 
       <button
         id="booking"
+        disabled={showBookingSuccess}
         onClick={() => {
           const newBooking = addGameToBookings(bookings, props.game.id);
 
           setBookings(newBooking);
+          setShowBookingSuccess(true);
         }}
       >
-        Add to My Bookings
+        Add to My Games
       </button>
       <button
+        disabled={!props.canUserReserve}
         onClick={() => makeAReservationForGame(props.game.id)}
         value="Reservation"
       >
         Make a reservation
       </button>
+      {showBookingSuccess && (
+        <p>Successfully added {props.game.name} to your games!</p>
+      )}
     </>
   );
 }
@@ -85,6 +79,9 @@ export async function getServerSideProps(context) {
     context.res.statusCode = 404;
   }
 
+  const { canUserReserve } = await import('../../util/database');
+  const isReservationPossible = await canUserReserve(id);
+
   // 1. Cookie is read and if there is no cookie value yet, it will start an empty array
   const bookings = context.req.cookies.bookings;
 
@@ -94,6 +91,7 @@ export async function getServerSideProps(context) {
     props: {
       bookingsCookieValue: bookingsCookieValue,
       game: game || null,
+      canUserReserve: isReservationPossible,
     },
   };
 }

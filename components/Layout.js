@@ -1,57 +1,5 @@
 import Link from 'next/link';
 import Head from 'next/head';
-import { css } from '@emotion/react';
-
-const headerStyles = css`
-  display: flex;
-  justify-content: center;
-
-  font-size: 24;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-
-  margin-bottom: 10px;
-
-  flex-container {
-    background-color: #eb3439;
-  }
-
-  h2 {
-    color: black;
-    font-style: cursive;
-    font-weight: bold;
-  }
-
-  a + a {
-    margin-left: 15px;
-  }
-`;
-
-const logoStyles = css`
-  background-color: red;
-  color: white;
-  text-shadow: 2px 2px #263439;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-style: bold;
-`;
-
-const footerStyles = css`
-  background-color: #27ebca;
-  color: black;
-
-  margin-top: 40px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 20;
-
-  p {
-    margin-left: 15px;
-  }
-
-  a {
-    color: #005f6a;
-    margin-left: 10px;
-  }
-`;
 
 export default function Layout(props) {
   return (
@@ -62,62 +10,109 @@ export default function Layout(props) {
       </Head>
 
       <header>
-        <div css={headerStyles}>
-          <box css={logoStyles}>
-            <h1>PLAYPOLY</h1>
-          </box>
-          <h2>your rental for board games</h2>
-        </div>
-        <nav>
-          <div>
-            <div>
-              <Link href="/">
-                <a>Home</a>
-              </Link>{' '}
-              <Link href="/games">
-                <a>Games</a>
-              </Link>
-              <Link href="/search">
-                <a>Search</a>
-              </Link>{' '}
-              <div>
-                {/* to have a logout page and link visible after login and registration */}
-
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <div className="container">
+            <a className="navbar-brand" href="/">
+              Playpoly
+            </a>
+            <small>Your rental for board games</small>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <Link href="/">
+                    <a className="nav-link active" href="/">
+                      Home
+                    </a>
+                  </Link>{' '}
+                </li>
+                <li className="nav-item">
+                  <Link href="/games">
+                    <a className="nav-link">Games</a>
+                  </Link>{' '}
+                </li>
+                <li className="nav-item">
+                  <Link href="/search">
+                    <a className="nav-link">Search</a>
+                  </Link>{' '}
+                </li>
                 {!props.isSessionValid ? (
                   <>
-                    <Link href="/register">
-                      <a data-cy="header-register">Register</a>
-                    </Link>
-                    <Link href="/login">
-                      <a data-cy="header-login">Login</a>
-                    </Link>
+                    <li className="nav-item">
+                      <Link href="/register">
+                        <a className="nav-link" data-cy="header-register">
+                          Register
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link href="/login">
+                        <a className="nav-link" data-cy="header-login">
+                          Login
+                        </a>
+                      </Link>
+                    </li>
                   </>
                 ) : (
                   <>
-                    <Link href="/logout">
-                      <a data-cy="header-login">Logout</a>
-                    </Link>
-                    <Link href="/myBookings">
-                      <a data-cy="header-login">My bookings</a>
-                    </Link>
+                    <li className="nav-item">
+                      <Link href="/logout">
+                        <a className="nav-link" data-cy="header-login">
+                          Logout
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link href="/myGames">
+                        <a className="nav-link" data-cy="header-login">
+                          My games
+                        </a>
+                      </Link>
+                    </li>
                   </>
                 )}
-              </div>
-              <Link href="/terms">
-                <a>Terms of use</a>
-              </Link>{' '}
-              <Link href="/admin/games/manage">
-                <a>Admin</a>
-              </Link>
+              </ul>
             </div>
           </div>
         </nav>
+        <div>
+          {!props.isUserAdmin ? (
+            <div />
+          ) : (
+            <Link href="/admin/games/manage">
+              <a>Admin</a>
+            </Link>
+          )}
+        </div>
       </header>
 
-      {props.children}
+      <div className="container">{props.children}</div>
 
-      <footer css={footerStyles}>
-        <p>rental@playpoly.rental</p>
+      <footer>
+        <div className="container">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link href="/terms">
+                <a>Terms of use</a>
+              </Link>{' '}
+            </li>
+            <li className="nav-item">
+              <Link href="mailto:rental@playpoly.rental">
+                <a>rental@playpoly.rental</a>
+              </Link>{' '}
+            </li>
+          </ul>
+        </div>
       </footer>
     </>
   );

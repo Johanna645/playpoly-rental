@@ -1,7 +1,7 @@
 import {
   createReservation,
   getUserIdFromSessions,
-  isGameAvailableForReservation,
+  canUserReserve,
 } from '../../../util/database';
 
 export default async function handler(req, res) {
@@ -13,7 +13,8 @@ export default async function handler(req, res) {
       .send({ message: 'Unauthorized, please login first' });
   }
 
-  const gameId = req.query.id;
+  const gameId = req.query.idReservation;
+
   if (!gameId) {
     return res.status(404).send({ message: 'No match found' });
   }
@@ -21,7 +22,8 @@ export default async function handler(req, res) {
   const userId = await getUserIdFromSessions(token);
   const id = userId.userId;
 
-  const availability = await isGameAvailableForReservation(gameId);
+  const availability = await canUserReserve(gameId);
+
   if (availability === false) {
     return res.status(404).send({
       message: 'Game is rented and there are already reservations awaiting',
