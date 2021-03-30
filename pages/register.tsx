@@ -22,101 +22,138 @@ export default function Register(props: Props) {
       <Head>
         <title>Register</title>
       </Head>
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
 
-          const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              username,
-              password,
-              csrfToken: props.csrfToken,
-            }),
-          }); // here password is sent to the backend api in plain text, which is a danger if on "open wifi" or so where someone might follow the traffic
+      <div className="row">
+        <div className="col-12 offset-md-4 col-md-4">
+          {' '}
+          <h1>Register</h1>
+          <form
+            onSubmit={async (event) => {
+              event.preventDefault();
 
-          const { user, errors: returnedErrors } = await response.json();
+              const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  username,
+                  password,
+                  csrfToken: props.csrfToken,
+                }),
+              }); // here password is sent to the backend api in plain text, which is a danger if on "open wifi" or so where someone might follow the traffic
 
-          if (returnedErrors) {
-            setErrors(returnedErrors);
-            return;
-          }
+              const { user, errors: returnedErrors } = await response.json();
 
-          // when registration was successfull, redirect to home-page
-          // here can be other options still, like `/profile/${user.id}` or so if user needs a page
-          // here maybe not the id, just a profile page...
-          // returnTo was added later, it is some route that needs to be written on the url-tab on the page like register?returnTo= and then the page you want to go to
-          // redirecting makes sure that user that is registered or logged in cannot go to the login/register page again
+              if (returnedErrors) {
+                setErrors(returnedErrors);
+                return;
+              }
 
-          const returnTo = Array.isArray(router.query.returnTo)
-            ? router.query.returnTo[0]
-            : router.query.returnTo;
+              // when registration was successfull, redirect to home-page
+              // here can be other options still, like `/profile/${user.id}` or so if user needs a page
+              // here maybe not the id, just a profile page...
+              // returnTo was added later, it is some route that needs to be written on the url-tab on the page like register?returnTo= and then the page you want to go to
+              // redirecting makes sure that user that is registered or logged in cannot go to the login/register page again
 
-          router.push(returnTo || `/registrationSuccess`);
-        }}
-      >
-        <label>
-          Username:
-          <input
-            value={username}
-            onChange={(event) => setUsername(event.currentTarget.value)}
-          />
-        </label>
+              const returnTo = Array.isArray(router.query.returnTo)
+                ? router.query.returnTo[0]
+                : router.query.returnTo;
 
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.currentTarget.value)}
-          />
-        </label>
-        {/* following fields are not connected with anything yet, they are not fields in the database yet, but here only as placeholders at the moment for later use */}
+              router.push(returnTo || `/registrationSuccess`);
+            }}
+          >
+            <div className="mb-3">
+              <label className="form-label">
+                Username
+                <input
+                  type="text"
+                  className="form-control"
+                  value={username}
+                  onChange={(event) => setUsername(event.currentTarget.value)}
+                />
+              </label>
+            </div>
 
-        <label>
-          First name:
-          <input
-            value={firstName}
-            onChange={(event) => setFirstName(event.currentTarget.value)}
-          />
-        </label>
+            <div className="mb-3">
+              <label className="form-label">
+                Password
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={(event) => setPassword(event.currentTarget.value)}
+                />
+              </label>
+            </div>
 
-        <label>
-          Last name:
-          <input
-            value={lastName}
-            onChange={(event) => setLastName(event.currentTarget.value)}
-          />
-        </label>
+            {/* following fields are not connected with anything yet, they are not fields in the database yet, but here only as placeholders at the moment for later use */}
 
-        <label>
-          E-Mail:
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.currentTarget.value)}
-          />
-        </label>
+            <div className="mb-3">
+              <label className="form-label">
+                First name
+                <input
+                  type="text"
+                  className="form-control"
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.currentTarget.value)}
+                />
+              </label>
+            </div>
 
-        <label>
-          Phone number:
-          <input
-            type="tel"
-            value={phoneNumber}
-            onChange={(event) => setPhoneNumber(event.currentTarget.value)}
-          />
-        </label>
+            <div className="mb-3">
+              <label className="form-label">
+                Last name
+                <input
+                  type="text"
+                  className="form-control"
+                  value={lastName}
+                  onChange={(event) => setLastName(event.currentTarget.value)}
+                />
+              </label>
+            </div>
 
-        <button type="submit">Register</button>
-      </form>
-      {errors.map((error) => (
-        <div style={{ color: 'red' }} key={`error-message-${error.message}`}>
-          {error.message}
+            <div className="mb-3">
+              <label className="form-label">
+                Email
+                <input
+                  type="email"
+                  className="form-control"
+                  value={email}
+                  onChange={(event) => setEmail(event.currentTarget.value)}
+                />
+              </label>
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">
+                Phone number
+                <input
+                  type="tel"
+                  className="form-control"
+                  value={phoneNumber}
+                  onChange={(event) =>
+                    setPhoneNumber(event.currentTarget.value)
+                  }
+                />
+              </label>
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Register
+            </button>
+
+            {errors.map((error) => (
+              <div
+                style={{ color: 'red' }}
+                key={`error-message-${error.message}`}
+              >
+                {error.message}
+              </div>
+            ))}
+          </form>
         </div>
-      ))}
+      </div>
     </>
   );
 }

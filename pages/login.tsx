@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 // refactor type alias, so what was csrfToken as props is now just Props
 type Props = {
   csrfToken: string;
-  setIsSessionStateStale: Dispatch<SetStateAction<boolean>>; //what is this?
+  setIsSessionStateStale: Dispatch<SetStateAction<boolean>>; // what is this?
 };
 
 export default function Login(props: Props) {
@@ -24,64 +24,86 @@ export default function Login(props: Props) {
       <Head>
         <title>Login</title>
       </Head>
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
 
-          const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              username,
-              password,
-              csrfToken: props.csrfToken,
-            }),
-          }); // here password is sent to the backend api in plain text, which is a danger if on "open wifi" or so where someone might follow the traffic
+      <div className="row">
+        <div className="col-12 offset-md-4 col-md-4">
+          {' '}
+          <h1>Login</h1>
+          <form
+            onSubmit={async (event) => {
+              event.preventDefault();
 
-          const { user, errors: returnedErrors } = await response.json();
+              const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  username,
+                  password,
+                  csrfToken: props.csrfToken,
+                }),
+              }); // here password is sent to the backend api in plain text, which is a danger if on "open wifi" or so where someone might follow the traffic
 
-          if (returnedErrors) {
-            setErrors(returnedErrors);
-            return;
-          }
+              const { user, errors: returnedErrors } = await response.json();
 
-          // when login/registration was successfull, redirect to home-page
-          // here can be other options still, like `/profile/${user.id}` or so if user needs a page
-          // here maybe not the id, just a profile page...
-          // returnTo was added later, it is some route that needs to be written on the url-tab on the page
+              if (returnedErrors) {
+                setErrors(returnedErrors);
+                return;
+              }
 
-          const returnTo = Array.isArray(router.query.returnTo)
-            ? router.query.returnTo[0]
-            : router.query.returnTo;
+              // when login/registration was successfull, redirect to home-page
+              // here can be other options still, like `/profile/${user.id}` or so if user needs a page
+              // here maybe not the id, just a profile page...
+              // returnTo was added later, it is some route that needs to be written on the url-tab on the page
 
-          router.push(returnTo || '/');
-          props.setIsSessionStateStale(true); // what is this?
-        }}
-      >
-        <label>
-          Username:
-          <input
-            value={username}
-            onChange={(event) => setUsername(event.currentTarget.value)}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.currentTarget.value)}
-          />
-        </label>
-        <button type="submit">Login</button>
-      </form>
-      {errors.map((error) => (
-        <div style={{ color: 'red' }} key={`error-message-${error.message}`}>
-          {error.message}
+              const returnTo = Array.isArray(router.query.returnTo)
+                ? router.query.returnTo[0]
+                : router.query.returnTo;
+
+              router.push(returnTo || '/');
+              props.setIsSessionStateStale(true); // what is this?
+            }}
+          >
+            <div className="mb-3">
+              <label className="form-label">
+                Username
+                <input
+                  type="text"
+                  className="form-control"
+                  value={username}
+                  onChange={(event) => setUsername(event.currentTarget.value)}
+                />
+              </label>
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">
+                Password
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={(event) => setPassword(event.currentTarget.value)}
+                />
+              </label>
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Login
+            </button>
+
+            {errors.map((error) => (
+              <div
+                style={{ color: 'red' }}
+                key={`error-message-${error.message}`}
+              >
+                {error.message}
+              </div>
+            ))}
+          </form>
         </div>
-      ))}
+      </div>
     </>
   );
 }
