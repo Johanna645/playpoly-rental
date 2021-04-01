@@ -8,7 +8,6 @@ export default async function handler(req, res) {
   // console.log(id);
 
   const isAdmin = await isUserAdmin(id);
-  // console.log(isAdmin);
 
   res.send({ isUserAdmin: isAdmin });
 }

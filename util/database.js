@@ -94,16 +94,14 @@ export async function isUserAdmin(id) {
   return camelcaseRecords(user)[0];
 }
 
-export async function makeUserAdmin(username, id) {
+export async function makeUserAdmin(id) {
   const staffMember = await sql`
     UPDATE
 			users
 		SET
 			is_admin = true
 		WHERE
-			id = ${id} AND
-      username = ${username}
-
+			id = ${id}
   `;
   return camelcaseRecords(staffMember)[0];
 }
@@ -368,4 +366,15 @@ export async function createUser(username, passwordHash) {
     RETURNING id, username
   `;
   return camelcaseRecords(users)[0];
+}
+
+export async function deleteUserById(id) {
+  const user = await sql`
+  DELETE FROM
+    users
+  WHERE
+    id = ${id}
+  RETURNING *
+  `;
+  return camelcaseRecords(user)[0];
 }

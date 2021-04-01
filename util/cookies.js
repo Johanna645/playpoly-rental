@@ -63,3 +63,7 @@ export function addGameToBookings(bookingsCookieValue, gameId) {
     ];
   }
 }
+
+export function emptyBookingsCookie() {
+  Cookies.remove('bookings');
+}

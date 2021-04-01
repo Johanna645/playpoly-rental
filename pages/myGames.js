@@ -33,42 +33,54 @@ export default function MyGames(props) {
       <Head>
         <title>My Games</title>
       </Head>
+      <h2>Games chosen:</h2>
 
-      <table>
+      <table className="table table-striped">
         <thead>
           <tr>
-            <th>Games chosen:</th>
+            <th scope="col">Game name</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
+
         <tbody>
           {props.userBookings.map((gameFromCookie) => (
             <tr key={gameFromCookie.gameId}>
               <td>{gameFromCookie.name}</td>
+
               <td>
-                <button
-                  onClick={() => handleClickToRemove(gameFromCookie.gameId)}
-                  value="Remove"
-                >
-                  Remove game
-                </button>
-              </td>
-              <td>
-                <button
-                  disabled={showRentalSuccess}
-                  onClick={() => rentGame(gameFromCookie.gameId)}
-                  value="Rent"
-                >
-                  Rent game
-                </button>
-              </td>
-              <td>
-                <button
-                  disabled={!props.canUserReserve}
-                  onClick={() => makeAReservationForGame(gameFromCookie.gameId)}
-                  value="Reservation"
-                >
-                  Make a reservation
-                </button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    onClick={() => handleClickToRemove(gameFromCookie.gameId)}
+                    value="Remove"
+                  >
+                    Remove
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    disabled={showRentalSuccess}
+                    onClick={() => rentGame(gameFromCookie.gameId)}
+                    value="Rent"
+                  >
+                    Rent
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    disabled={!props.canUserReserve}
+                    onClick={() =>
+                      makeAReservationForGame(gameFromCookie.gameId)
+                    }
+                    value="Reservation"
+                  >
+                    Reserve
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

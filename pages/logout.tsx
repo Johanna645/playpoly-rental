@@ -25,10 +25,12 @@ export default function Logout(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { deleteSessionByToken } = await import('../util/database');
   const { serializeEmptyCookieServerSide } = await import('../util/cookies');
+  const { emptyBookingsCookie } = await import('../util/cookies');
 
   await deleteSessionByToken(context.req.cookies.session);
   const emptyCookie = serializeEmptyCookieServerSide('session');
   context.res.setHeader('Set-Cookie', emptyCookie);
+  await emptyBookingsCookie();
 
   return { props: {} };
 }

@@ -29,101 +29,151 @@ export default function Search(props) {
     setDropdownValue(event.target.value);
   }
 
-  function filterByName() {
-    /*
-    const text = inputValue;
-    const textWithCapital = text[0].toUpperCase() + text.slice(1);
-    */
-
-    const searchStringLowerCase = inputValue.toLowerCase();
-
+  function filterEverything() {
     const games = props.games;
     const result = [];
+
+    const searchStringLowerCase = inputValue.toLowerCase();
+    const chosenAgeValue = Number(dropdownValue);
+    const chosenPlayerAmount = Number(dropdownPlayerAmount);
 
     for (let i = 0; i < games.length; i++) {
       const gameNameLowerCase = games[i].name.toLowerCase();
       const gameDescriptionLowerCase = games[i].description.toLowerCase();
 
       if (
-        gameNameLowerCase.includes(searchStringLowerCase) ||
-        gameDescriptionLowerCase.includes(searchStringLowerCase)
+        (gameNameLowerCase.includes(searchStringLowerCase) ||
+          gameDescriptionLowerCase.includes(searchStringLowerCase)) &&
+        (games[i].age === chosenAgeValue || games[i].age > chosenAgeValue) &&
+        (games[i].playerMinimum === chosenPlayerAmount ||
+          games[i].playerMaximum === chosenPlayerAmount ||
+          games[i].playerMaximum > chosenPlayerAmount)
       ) {
         result.push(games[i]);
       }
+      setGamesList(result);
     }
-
-    setGamesList(result);
   }
 
-  function filterByAge() {
-    const chosenValue = Number(dropdownValue);
-    const games = props.games;
-    const result = [];
+  // function filterByName() {
+  //   const searchStringLowerCase = inputValue.toLowerCase();
+  //   if (searchStringLowerCase === '') {
+  //     return;
+  //   }
 
-    for (let i = 0; i < games.length; i++) {
-      if (games[i].age === chosenValue || games[i].age > chosenValue) {
-        result.push(games[i]);
-      }
-    }
-    setGamesList(result);
-  }
+  //   const games = props.games;
+  //   const result = [];
 
-  function filterByPlayerAmount() {
-    const chosenValue = Number(dropdownPlayerAmount);
-    const games = props.games;
-    const result = [];
+  //   for (let i = 0; i < games.length; i++) {
+  //     const gameNameLowerCase = games[i].name.toLowerCase();
+  //     const gameDescriptionLowerCase = games[i].description.toLowerCase();
 
-    for (let i = 0; i < games.length; i++) {
-      if (
-        games[i].playerMinimum === chosenValue ||
-        games[i].playerMaximum === chosenValue ||
-        games[i].playerMaximum > chosenValue
-      ) {
-        result.push(games[i]);
-      }
-    }
-    setGamesList(result);
-  }
+  //     if (
+  //       gameNameLowerCase.includes(searchStringLowerCase) ||
+  //       gameDescriptionLowerCase.includes(searchStringLowerCase)
+  //     ) {
+  //       result.push(games[i]);
+  //     }
+  //   }
+
+  //   setGamesList(result);
+  // }
+
+  // function filterByAge() {
+  //   const chosenValue = Number(dropdownValue);
+  //   const games = props.games;
+  //   const result = [];
+
+  //   for (let i = 0; i < games.length; i++) {
+  //     if (games[i].age === chosenValue || games[i].age > chosenValue) {
+  //       result.push(games[i]);
+  //     }
+  //   }
+  //   setGamesList(result);
+  // }
+
+  // function filterByPlayerAmount() {
+  //   const chosenValue = Number(dropdownPlayerAmount);
+  //   const games = props.games;
+  //   const result = [];
+
+  //   for (let i = 0; i < games.length; i++) {
+  //     if (
+  //       games[i].playerMinimum === chosenValue ||
+  //       games[i].playerMaximum === chosenValue ||
+  //       games[i].playerMaximum > chosenValue
+  //     ) {
+  //       result.push(games[i]);
+  //     }
+  //   }
+  //   setGamesList(result);
+  // }
+
   return (
     <>
       <Head>
         <title>Search</title>
       </Head>
       <h1>Search for games</h1>
-      {/* // a search bar with game name and a filter dropdown */}
-      {/* <form class="row row-cols-lg-auto g-3 align-items-center">
-        <div class="col-12">
-        <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
-    <div class="input-group">
-      <div class="input-group-text">@</div>
-      <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
-    </div>
-  </div>
-
-  <div class="col-12">
-    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-    <select class="form-select" id="inlineFormSelectPref">
-      <option selected>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-  </div>
-
-  <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-      <label class="form-check-label" for="inlineFormCheck">
-        Remember me
-      </label>
-    </div>
-  </div>
-
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-</form> */}
-      <div>
+      <form class="row">
+        <div class="row g-3">
+          <div class="col-sm-8">
+            <label for="searchText">
+              Name or Description
+              <input
+                class="form-control"
+                type="text"
+                id="searchText"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div class="col-sm-1">
+            <label for="players">
+              Players
+              <select
+                class="form-select"
+                type="integer"
+                id="players"
+                value={dropdownPlayerAmount}
+                onChange={handleDropdownPlayerAmountChange}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">4+</option>
+              </select>
+            </label>
+          </div>
+          <div class="col-sm-1">
+            <label for="ageGroup">
+              Age group
+              <select
+                class="form-select"
+                name="age"
+                id="ageGroup"
+                type="integer"
+                value={dropdownValue}
+                onChange={handleDropdownChange}
+              >
+                <option value="4">4+</option>
+                <option value="6">6+</option>
+                <option value="8">8+</option>
+                <option value="10">10+</option>
+                <option value="12">12+</option>
+              </select>
+            </label>
+          </div>
+          <div class="col-sm-2 d-flex flex-column">
+            <button class="btn btn-primary mt-auto" onClick={filterEverything}>
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+      {/* <div>
         <input
           type="text"
           id="searchText"
@@ -133,61 +183,11 @@ export default function Search(props) {
         <button onClick={filterByName}>Search</button>
       </div>
       <div>
-        <select
-          className="form-select"
-          type="integer"
-          value={dropdownPlayerAmount}
-          onChange={handleDropdownPlayerAmountChange}
-        >
-          <option selected>Choose amount of players</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">4+</option>
-        </select>
-
-        <label for="players">
-          Choose amount of players:
-          <select
-            name="players"
-            id="players"
-            type="integer"
-            value={dropdownPlayerAmount}
-            onChange={handleDropdownPlayerAmountChange}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">4+</option>
-          </select>
-        </label>
-        <div>
-          <button onClick={filterByPlayerAmount}>filter</button>
-        </div>
+        <button onClick={filterByPlayerAmount}>filter players</button>
       </div>
       <div>
-        <label for="age">
-          Choose recommended age:
-          <select
-            name="age"
-            id="age"
-            type="integer"
-            value={dropdownValue}
-            onChange={handleDropdownChange}
-          >
-            <option value="4">4+</option>
-            <option value="6">6+</option>
-            <option value="8">8+</option>
-            <option value="10">10+</option>
-            <option value="12">12+</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <button onClick={filterByAge}>filter</button>
-      </div>{' '}
+        <button onClick={filterByAge}>filter age</button>
+      </div>{' '}*/}
       <table className="table table-striped">
         <thead>
           <tr>

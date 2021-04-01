@@ -62,16 +62,14 @@ export default function Layout(props) {
                   <>
                     <li className="nav-item">
                       <Link href="/logout">
-                        <a className="nav-link" data-cy="header-login">
+                        <a className="nav-link" data-cy="header-logout">
                           Logout
                         </a>
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link href="/myGames">
-                        <a className="nav-link" data-cy="header-login">
-                          My games
-                        </a>
+                        <a className="nav-link">My games</a>
                       </Link>
                     </li>
 
@@ -80,7 +78,7 @@ export default function Layout(props) {
                     ) : (
                       <li className="nav-item">
                         <Link href="/admin/games/manage">
-                          <a>Admin</a>
+                          <a className="nav-link">Admin</a>
                         </Link>
                       </li>
                     )}
