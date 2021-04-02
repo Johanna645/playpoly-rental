@@ -12,6 +12,6 @@ exports.down = async (sql) => {
     ALTER TABLE
       users
     DROP COLUMN
-      admin
+      is_admin
   `;
 };

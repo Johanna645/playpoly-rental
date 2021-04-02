@@ -91,15 +91,16 @@ export async function isUserAdmin(id) {
   WHERE
     id = ${id}
   `;
-  return camelcaseRecords(user)[0];
+
+  return camelcaseRecords(user)[0].isAdmin;
 }
 
-export async function makeUserAdmin(id) {
+export async function makeUserAdmin(id, isAdmin) {
   const staffMember = await sql`
     UPDATE
 			users
 		SET
-			is_admin = true
+			is_admin = ${isAdmin}
 		WHERE
 			id = ${id}
   `;

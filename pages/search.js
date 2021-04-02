@@ -173,21 +173,7 @@ export default function Search(props) {
           </div>
         </div>
       </form>
-      {/* <div>
-        <input
-          type="text"
-          id="searchText"
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <button onClick={filterByName}>Search</button>
-      </div>
-      <div>
-        <button onClick={filterByPlayerAmount}>filter players</button>
-      </div>
-      <div>
-        <button onClick={filterByAge}>filter age</button>
-      </div>{' '}*/}
+
       <table className="table table-striped">
         <thead>
           <tr>

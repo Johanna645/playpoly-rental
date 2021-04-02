@@ -9,7 +9,7 @@ export default function EditGame(props) {
   // this might be handy for the reservation stuff
   // const [state, setState] = useState(props.game?.state);
   // example
-  const [name, setName] = useState(props.game?.name);
+  // const [name, setName] = useState(props.game?.name);
 
   if (!props.game) {
     return (

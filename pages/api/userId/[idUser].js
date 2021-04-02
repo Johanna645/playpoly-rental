@@ -26,9 +26,9 @@ export default async function handler(req, res) {
     return res.status(401).send({ message: 'Unauthorized' });
   }
 
-  const gameId = req.query.gameId;
+  const idUser = Number(req.query.idUser);
 
-  if (!gameId) {
+  if (!idUser) {
     return res.status(404).send({ message: 'No match found' });
   }
 
@@ -41,12 +41,12 @@ export default async function handler(req, res) {
   // }
 
   if (req.method === 'PATCH') {
-    const updatedUser = await makeUserAdmin(id, req.body.isAdmin);
+    const updatedUser = await makeUserAdmin(idUser, req.body.isAdmin);
     res.json(updatedUser);
   }
 
   if (req.method === 'DELETE') {
-    const deletedUser = await deleteUserById(id);
+    const deletedUser = await deleteUserById(idUser);
     res.json(deletedUser);
   }
 }

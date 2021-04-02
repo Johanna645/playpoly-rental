@@ -115,8 +115,8 @@ export default function Manage(props) {
             />
           </label>
         </div>
-        <div class="col-12">
-          <label class="form-label">
+        <div className="col-12">
+          <label className="form-label">
             Description:
             <textarea
               class="form-control"
@@ -134,9 +134,40 @@ export default function Manage(props) {
         </button>
       </form>
 
-      <h2>Edit games and rentals</h2>
+      <h2>Edit games and manage rentals</h2>
 
-      <button onClick={showGames}>See all games</button>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Game</th>
+            <th scope="col">Rented</th>
+            <th scope="col">Reserved</th>
+            <th scope="col">Notify</th>
+          </tr>
+        </thead>
+        <tbody>
+          {games.map((game) => (
+            <tr key={`game-${game.id}`}>
+              <th scope="row">{game.id}</th>
+              <td>
+                <Link href={`/admin/games/${game.id}`}>
+                  <a>{game.name}</a>
+                </Link>
+              </td>
+              <td>{game.userIdRental}</td>
+              <td>{game.userIdReservation}</td>
+              <td>
+                <button type="button" class="btn btn-info">
+                  Send notification
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* <button onClick={showGames}>See all games</button>
       <div>
         <ul>
           {games.map((game) => (
@@ -147,9 +178,10 @@ export default function Manage(props) {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
 
       {/* <button onClick={showUsers}>See all users</button>  which is better, to have it under a button or listed right away?*/}
+      <h2>Edit users</h2>
       <table className="table table-striped">
         <thead>
           <tr>
@@ -177,7 +209,8 @@ export default function Manage(props) {
                     type="checkbox"
                     // id={user.id}
                     onChange={async () => {
-                      await fetch(`/api/userId/${props.idUser}`, {
+                      console.log(user);
+                      await fetch(`/api/userId/${user.id}`, {
                         method: 'PATCH',
                         headers: {
                           'Content-Type': 'application/json',
@@ -198,7 +231,7 @@ export default function Manage(props) {
                   onClick={async () => {
                     const confirmed = window.confirm('Really remove?');
                     if (!confirmed) return;
-                    await fetch(`/api/userId/${props.idUser}`, {
+                    await fetch(`/api/userId/${user.id}`, {
                       method: 'DELETE',
                       headers: {
                         'Content-Type': 'application/json',
