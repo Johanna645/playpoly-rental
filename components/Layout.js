@@ -38,7 +38,9 @@ export default function Layout(props) {
                 </li>
                 <li className="nav-item">
                   <Link href="/search">
-                    <a className="nav-link">Games</a>
+                    <a data-cy="header-games" className="nav-link">
+                      Games
+                    </a>
                   </Link>{' '}
                 </li>
                 {!props.isSessionValid ? (

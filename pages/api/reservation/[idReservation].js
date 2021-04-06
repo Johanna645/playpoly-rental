@@ -14,6 +14,7 @@ export default async function handler(req, res) {
   }
 
   const gameId = req.query.idReservation;
+  // console.log(gameId)
 
   if (!gameId) {
     return res.status(404).send({ message: 'No match found' });

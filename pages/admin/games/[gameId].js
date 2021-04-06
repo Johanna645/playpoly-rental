@@ -6,10 +6,8 @@ import { useRouter } from 'next/router';
 
 export default function EditGame(props) {
   const router = useRouter();
-  // this might be handy for the reservation stuff
-  // const [state, setState] = useState(props.game?.state);
-  // example
-  // const [name, setName] = useState(props.game?.name);
+
+  const [name, setName] = useState(props.game?.name);
 
   if (!props.game) {
     return (
@@ -31,16 +29,20 @@ export default function EditGame(props) {
 
       <div>id: {props.game.id}</div>
       <div>name: {props.game.name} </div>
-      <div>
+      {/* <div>
         is rented / reserved: {props.game.userIdRental} //{' '}
         {props.game.userIdReservation}
-      </div>
+      </div> */}
       {/* <input
+        type="text"
+        className="form-control"
         value={name}
         onChange={(event) => setName(event.currentTarget.value)}
       />
 
       <button
+        type="button"
+        className="btn btn-warning"
         onClick={async () => {
           await fetch(`/api/${props.game.id}`, {
             method: 'PATCH',
@@ -58,6 +60,8 @@ export default function EditGame(props) {
       </button> */}
 
       <button
+        type="button"
+        className="btn btn-warning"
         onClick={async () => {
           const confirmed = window.confirm('Really remove?');
           if (!confirmed) return;

@@ -19,7 +19,7 @@ export default function MyGames(props) {
   async function rentGame(id) {
     const response = await fetch(`/api/gameId/${id}`);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
   }
 
   async function makeAReservationForGame(idReservation) {
@@ -102,8 +102,6 @@ export default function MyGames(props) {
 }
 
 export async function getServerSideProps(context) {
-  // here maybe still list of possible old bookings out of the database
-
   const {
     getAllGames,
     getUserIdFromSessions,

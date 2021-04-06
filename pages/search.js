@@ -2,7 +2,6 @@ import Head from 'next/head';
 import { useState } from 'react';
 import Link from 'next/link';
 import Layout from '../components/Layout';
-import { css } from '@emotion/react';
 
 export async function getServerSideProps() {
   const { getAllGames } = await import('../util/database');
@@ -29,7 +28,10 @@ export default function Search(props) {
     setDropdownValue(event.target.value);
   }
 
-  function filterEverything() {
+  function filterEverything(event) {
+    // console.log(event);
+    event.preventDefault();
+
     const games = props.games;
     const result = [];
 
@@ -51,126 +53,86 @@ export default function Search(props) {
       ) {
         result.push(games[i]);
       }
-      setGamesList(result);
     }
+    setGamesList(result);
   }
 
-  // function filterByName() {
-  //   const searchStringLowerCase = inputValue.toLowerCase();
-  //   if (searchStringLowerCase === '') {
-  //     return;
-  //   }
-
-  //   const games = props.games;
-  //   const result = [];
-
-  //   for (let i = 0; i < games.length; i++) {
-  //     const gameNameLowerCase = games[i].name.toLowerCase();
-  //     const gameDescriptionLowerCase = games[i].description.toLowerCase();
-
-  //     if (
-  //       gameNameLowerCase.includes(searchStringLowerCase) ||
-  //       gameDescriptionLowerCase.includes(searchStringLowerCase)
-  //     ) {
-  //       result.push(games[i]);
-  //     }
-  //   }
-
-  //   setGamesList(result);
-  // }
-
-  // function filterByAge() {
-  //   const chosenValue = Number(dropdownValue);
-  //   const games = props.games;
-  //   const result = [];
-
-  //   for (let i = 0; i < games.length; i++) {
-  //     if (games[i].age === chosenValue || games[i].age > chosenValue) {
-  //       result.push(games[i]);
-  //     }
-  //   }
-  //   setGamesList(result);
-  // }
-
-  // function filterByPlayerAmount() {
-  //   const chosenValue = Number(dropdownPlayerAmount);
-  //   const games = props.games;
-  //   const result = [];
-
-  //   for (let i = 0; i < games.length; i++) {
-  //     if (
-  //       games[i].playerMinimum === chosenValue ||
-  //       games[i].playerMaximum === chosenValue ||
-  //       games[i].playerMaximum > chosenValue
-  //     ) {
-  //       result.push(games[i]);
-  //     }
-  //   }
-  //   setGamesList(result);
-  // }
+  function clearFilters() {
+    setInputValue('');
+    setDropdownValue(4);
+    setDropdownPlayerAmount(1);
+    setGamesList(props.games);
+  }
 
   return (
     <>
       <Head>
         <title>Search</title>
       </Head>
-      <h1>Search for games</h1>
-      <form class="row">
-        <div class="row g-3">
-          <div class="col-sm-8">
-            <label for="searchText">
-              Name or Description
-              <input
-                class="form-control"
-                type="text"
-                id="searchText"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-            </label>
-          </div>
-          <div class="col-sm-1">
-            <label for="players">
-              Players
-              <select
-                class="form-select"
-                type="integer"
-                id="players"
-                value={dropdownPlayerAmount}
-                onChange={handleDropdownPlayerAmountChange}
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">4+</option>
-              </select>
-            </label>
-          </div>
-          <div class="col-sm-1">
-            <label for="ageGroup">
-              Age group
-              <select
-                class="form-select"
-                name="age"
-                id="ageGroup"
-                type="integer"
-                value={dropdownValue}
-                onChange={handleDropdownChange}
-              >
-                <option value="4">4+</option>
-                <option value="6">6+</option>
-                <option value="8">8+</option>
-                <option value="10">10+</option>
-                <option value="12">12+</option>
-              </select>
-            </label>
-          </div>
-          <div class="col-sm-2 d-flex flex-column">
-            <button class="btn btn-primary mt-auto" onClick={filterEverything}>
-              Search
-            </button>
-          </div>
+      <h1 data-cy="games-page-content-h1">Search for games</h1>
+      <form className="row g3" onSubmit={filterEverything}>
+        <div className="col-sm-4">
+          <label for="searchText">
+            Name or Description
+            <input
+              className="form-control"
+              type="text"
+              id="searchText"
+              value={inputValue}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+        <div className="col-sm-1">
+          <label for="players">
+            Players
+            <select
+              className="form-select"
+              type="integer"
+              id="players"
+              value={dropdownPlayerAmount}
+              onChange={handleDropdownPlayerAmountChange}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">4+</option>
+            </select>
+          </label>
+        </div>
+        <div className="col-sm-2">
+          <label for="ageGroup">
+            Age group
+            <select
+              className="form-select"
+              name="age"
+              id="ageGroup"
+              type="integer"
+              value={dropdownValue}
+              onChange={handleDropdownChange}
+            >
+              <option value="4">4+</option>
+              <option value="6">6+</option>
+              <option value="8">8+</option>
+              <option value="10">10+</option>
+              <option value="12">12+</option>
+            </select>
+          </label>
+        </div>
+        <div className="col-sm-2 d-flex flex-column">
+          <button
+            className="btn btn-primary mt-auto"
+            // onClick={filterEverything}
+          >
+            Search
+          </button>
+        </div>
+
+        <div className="col-sm-2 d-flex flex-column">
+          <button className="btn btn-primary mt-auto" onClick={clearFilters}>
+            Show All
+          </button>
         </div>
       </form>
 
@@ -185,7 +147,7 @@ export default function Search(props) {
         </thead>
         <tbody>
           {gamesList.map((game) => (
-            <tr key={game.name}>
+            <tr data-cy="games-page-content-game" key={game.name}>
               <th scope="row">{game.id}</th>
               <td>
                 <Link href={`/games/${game.id}`}>

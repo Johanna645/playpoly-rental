@@ -329,7 +329,7 @@ export async function getUserByUsername(username) {
     WHERE
       username = ${username}
   `;
-  return camelcaseRecords(users)[0]; // returns undefined if there is nothing, this information is needed then otherplace
+  return camelcaseRecords(users)[0]; // returns undefined if there is nothing
 }
 
 export async function getUserById(id) {

@@ -3,9 +3,10 @@ import Layout from '../../../components/Layout';
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import Link from 'next/link';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 export default function Manage(props) {
+  const router = useRouter();
   const [games, setGames] = useState([]);
   const [name, setName] = useState('');
   const [playerMinimum, setPlayerMinimum] = useState();
@@ -14,7 +15,6 @@ export default function Manage(props) {
   const [description, setDescription] = useState('');
   const [users, setUsers] = useState([]);
   const [isAdminStatus, setIsAdminStatus] = useState();
-  // const router = useRouter();
 
   async function showGames() {
     const response = await fetch('/api');
@@ -147,7 +147,7 @@ export default function Manage(props) {
           </tr>
         </thead>
         <tbody>
-          {games.map((game) => (
+          {props.games.map((game) => (
             <tr key={`game-${game.id}`}>
               <th scope="row">{game.id}</th>
               <td>
@@ -207,7 +207,6 @@ export default function Manage(props) {
                     value=""
                     id="flexCheckDefault"
                     type="checkbox"
-                    // id={user.id}
                     onChange={async () => {
                       console.log(user);
                       await fetch(`/api/userId/${user.id}`, {

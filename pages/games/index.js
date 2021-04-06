@@ -15,8 +15,8 @@ export default function Games(props) {
       <Head>
         <title>Games</title>
       </Head>
-      <h1>Games</h1>
-      <p>this page shows you all our games</p>
+
+      <h1>All our games listed</h1>
 
       <div>
         <ul>
