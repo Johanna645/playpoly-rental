@@ -7,12 +7,12 @@ import { useState } from 'react';
 
 export default function MyGames(props) {
   const [showRentalSuccess, setShowRentalSuccess] = useState(false);
+  const [bookingsList, setBookingsList] = useState(props.userBookings);
 
   function handleClickToRemove(gameId) {
-    const newCookie = JSON.parse(Cookies.get('bookings')).filter(
-      (game) => game.gameId !== gameId,
-    );
-    Cookies.set('bookings', JSON.stringify(newCookie));
+    setBookingsList(bookingsList.filter((game) => game.gameId !== gameId));
+    Cookies.set('bookings', JSON.stringify(bookingsList));
+
     return false; // returns nothing, function is supposed just to filter and set the cookie anew
   }
 
@@ -21,7 +21,10 @@ export default function MyGames(props) {
       fetch(`/api/gameId/${game.gameId}`);
     });
 
+    setBookingsList([]);
+
     Cookies.remove('bookings');
+    setShowRentalSuccess(true);
   }
 
   return (
@@ -31,50 +34,71 @@ export default function MyGames(props) {
       </Head>
       <h2>Cart:</h2>
 
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Game name</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
+      {/* if (condition A) AND (condition B) are true, then show */}
+      {bookingsList.length == 0 && !showRentalSuccess && (
+        <div className="alert alert-info" role="alert">
+          Your cart is empty. Pick a game and add it.
+        </div>
+      )}
 
-        <tbody>
-          {props.userBookings.map((gameFromCookie) => (
-            <tr key={gameFromCookie.gameId}>
-              <td>{gameFromCookie.name}</td>
+      {bookingsList.length > 0 && (
+        <>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Game name</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
 
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <button
-                    type="button"
-                    class="btn btn-small btn-danger"
-                    onClick={() => handleClickToRemove(gameFromCookie.gameId)}
-                    value="Remove"
-                  >
-                    x
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-          <div>
-            {showRentalSuccess && (
-              <p>Rental of {props.gameFromCookie.name} accepted!</p>
-            )}
-          </div>
-        </tbody>
-      </table>
+            <tbody>
+              {bookingsList.map((gameFromCookie) => (
+                <tr key={gameFromCookie.gameId}>
+                  <td>{gameFromCookie.name}</td>
 
-      <button
-        type="button"
-        class="btn btn-primary"
-        disabled={showRentalSuccess}
-        onClick={() => rentGames()}
-        value="Rent"
-      >
-        Rent All
-      </button>
+                  <td>
+                    <span
+                      className="btn-group"
+                      role="group"
+                      aria-label="Basic example"
+                    >
+                      <button
+                        type="button"
+                        className="btn btn-small btn-danger"
+                        onClick={() =>
+                          handleClickToRemove(gameFromCookie.gameId)
+                        }
+                        value="Remove"
+                      >
+                        Remove
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <button
+            type="button"
+            className="btn btn-primary mb-5"
+            disabled={showRentalSuccess}
+            onClick={() => rentGames()}
+            value="Rent"
+          >
+            Rent All
+          </button>
+        </>
+      )}
+
+      {showRentalSuccess && (
+        <div className="alert alert-success mb-5" role="alert">
+          The games are yours - have fun!{' '}
+          <span role="img" aria-label="Smiley">
+            😊
+          </span>
+        </div>
+      )}
     </>
   );
 }
