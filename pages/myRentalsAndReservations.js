@@ -46,7 +46,11 @@ export default function Profile(props) {
                 <a>{game.name}</a>
               </Link>
 
-              <div class="btn-group" role="group" aria-label="Basic example">
+              <div
+                className="btn-group"
+                role="group"
+                aria-label="Basic example"
+              >
                 <button
                   type="button"
                   className="btn btn-small btn-danger"

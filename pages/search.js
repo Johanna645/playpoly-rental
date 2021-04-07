@@ -134,7 +134,7 @@ export default function Search(props) {
       </form>
 
       {gamesList.length == 0 ? (
-        <div class="alert alert-primary" role="alert">
+        <div className="alert alert-primary" role="alert">
           No game matches your search criteria.
         </div>
       ) : (

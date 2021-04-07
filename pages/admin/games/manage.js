@@ -44,7 +44,7 @@ export default function Manage(props) {
       <h2>Add new game</h2>
 
       <form
-        class="row row-cols-lg-auto g-3 align-items-center"
+        className="row row-cols-lg-auto g-3 align-items-center"
         onSubmit={async (event) => {
           event.preventDefault();
 
@@ -119,7 +119,7 @@ export default function Manage(props) {
           <label className="form-label">
             Description:
             <textarea
-              class="form-control"
+              className="form-control"
               rows="3"
               value={description}
               onChange={(event) => {
@@ -181,7 +181,7 @@ export default function Manage(props) {
               </td>
               <td>{game.userIdReservation}</td>
               <td>
-                <button type="button" class="btn btn-info">
+                <button type="button" className="btn btn-info">
                   Send notification
                 </button>
               </td>
@@ -249,7 +249,7 @@ export default function Manage(props) {
               <td>
                 <button
                   type="button"
-                  class="btn btn-warning"
+                  className="btn btn-warning"
                   onClick={async () => {
                     const confirmed = window.confirm('Really remove?');
                     if (!confirmed) return;
