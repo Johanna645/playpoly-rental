@@ -4,14 +4,20 @@ import Head from 'next/head';
 import Cookies from 'js-cookie';
 // import { createNewRental } from '../util/database';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function MyGames(props) {
+  const router = useRouter();
+
   const [showRentalSuccess, setShowRentalSuccess] = useState(false);
-  const [bookingsList, setBookingsList] = useState(props.userBookings);
 
   function handleClickToRemove(gameId) {
-    setBookingsList(bookingsList.filter((game) => game.gameId !== gameId));
-    Cookies.set('bookings', JSON.stringify(bookingsList));
+    const newCookie = props.userBookings.filter(
+      (game) => game.gameId !== gameId,
+    );
+    Cookies.set('bookings', JSON.stringify(newCookie));
+
+    router.push('/myGames');
 
     return false; // returns nothing, function is supposed just to filter and set the cookie anew
   }
@@ -20,8 +26,6 @@ export default function MyGames(props) {
     props.userBookings.forEach((game) => {
       fetch(`/api/gameId/${game.gameId}`);
     });
-
-    setBookingsList([]);
 
     Cookies.remove('bookings');
     setShowRentalSuccess(true);
@@ -32,72 +36,72 @@ export default function MyGames(props) {
       <Head>
         <title>My Cart</title>
       </Head>
-      <h2>Cart:</h2>
-
-      {/* if (condition A) AND (condition B) are true, then show */}
-      {bookingsList.length == 0 && !showRentalSuccess && (
-        <div className="alert alert-info" role="alert">
-          Your cart is empty. Pick a game and add it.
-        </div>
-      )}
-
-      {bookingsList.length > 0 && (
-        <>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Game name</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {bookingsList.map((gameFromCookie) => (
-                <tr key={gameFromCookie.gameId}>
-                  <td>{gameFromCookie.name}</td>
-
-                  <td>
-                    <span
-                      className="btn-group"
-                      role="group"
-                      aria-label="Basic example"
-                    >
-                      <button
-                        type="button"
-                        className="btn btn-small btn-danger"
-                        onClick={() =>
-                          handleClickToRemove(gameFromCookie.gameId)
-                        }
-                        value="Remove"
-                      >
-                        Remove
-                      </button>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <button
-            type="button"
-            className="btn btn-primary mb-5"
-            disabled={showRentalSuccess}
-            onClick={() => rentGames()}
-            value="Rent"
-          >
-            Rent All
-          </button>
-        </>
-      )}
-
-      {showRentalSuccess && (
+      {showRentalSuccess ? (
         <div className="alert alert-success mb-5" role="alert">
           The games are yours - have fun!{' '}
           <span role="img" aria-label="Smiley">
             😊
           </span>
         </div>
+      ) : (
+        <>
+          <h2>Cart:</h2>
+
+          {/* if (condition A) AND (condition B) are true, then show */}
+          {props.userBookings.length == 0 ? (
+            <div className="alert alert-info" role="alert">
+              Your cart is empty. Pick a game and add it.
+            </div>
+          ) : (
+            <>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Game name</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {props.userBookings.map((gameFromCookie) => (
+                    <tr key={gameFromCookie.gameId}>
+                      <td>{gameFromCookie.name}</td>
+
+                      <td>
+                        <span
+                          className="btn-group"
+                          role="group"
+                          aria-label="Basic example"
+                        >
+                          <button
+                            type="button"
+                            className="btn btn-small btn-danger"
+                            onClick={() =>
+                              handleClickToRemove(gameFromCookie.gameId)
+                            }
+                            value="Remove"
+                          >
+                            Remove
+                          </button>
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <button
+                type="button"
+                className="btn btn-primary mb-5"
+                disabled={showRentalSuccess}
+                onClick={() => rentGames()}
+                value="Rent"
+              >
+                Rent All
+              </button>
+            </>
+          )}
+        </>
       )}
     </>
   );
