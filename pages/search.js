@@ -67,58 +67,55 @@ export default function Search(props) {
   return (
     <>
       <Head>
-        <title>Search</title>
+        <title>Games</title>
       </Head>
-      <h1 data-cy="games-page-content-h1">Search for games</h1>
-      <form className="row g3" onSubmit={filterEverything}>
-        <div className="col-sm-4">
-          <label for="searchText">
+      <h1 data-cy="games-page-content-h1">Games</h1>
+
+      <form className="row g3 mt-5 mb-5" onSubmit={filterEverything}>
+        <div className="col-4">
+          <label htmlFor="searchText" className="flex-fill">
             Name or Description
-            <input
-              className="form-control"
-              type="text"
-              id="searchText"
-              value={inputValue}
-              onChange={handleInputChange}
-            />
           </label>
-        </div>
-        <div className="col-sm-1">
-          <label for="players">
-            Players
-            <select
-              className="form-select"
-              type="integer"
-              id="players"
-              value={dropdownPlayerAmount}
-              onChange={handleDropdownPlayerAmountChange}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">4+</option>
-            </select>
-          </label>
+          <input
+            className="form-control"
+            type="text"
+            id="searchText"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="col-sm-2">
-          <label for="ageGroup">
-            Age group
-            <select
-              className="form-select"
-              name="age"
-              id="ageGroup"
-              type="integer"
-              value={dropdownValue}
-              onChange={handleDropdownChange}
-            >
-              <option value="4">4+</option>
-              <option value="6">6+</option>
-              <option value="8">8+</option>
-              <option value="10">10+</option>
-              <option value="12">12+</option>
-            </select>
-          </label>
+          <label htmlFor="players">Players</label>
+          <select
+            className="form-select"
+            type="integer"
+            id="players"
+            value={dropdownPlayerAmount}
+            onChange={handleDropdownPlayerAmountChange}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 or more</option>
+          </select>
+        </div>
+        <div className="col-sm-2">
+          <label htmlFor="ageGroup">Age group</label>
+          <select
+            className="form-select"
+            name="age"
+            id="ageGroup"
+            type="integer"
+            value={dropdownValue}
+            onChange={handleDropdownChange}
+          >
+            <option value="4">4+</option>
+            <option value="6">6+</option>
+            <option value="8">8+</option>
+            <option value="10">10+</option>
+            <option value="12">12+</option>
+          </select>
         </div>
         <div className="col-sm-2 d-flex flex-column">
           <button
@@ -130,38 +127,45 @@ export default function Search(props) {
         </div>
 
         <div className="col-sm-2 d-flex flex-column">
-          <button className="btn btn-primary mt-auto" onClick={clearFilters}>
+          <button className="btn btn-secondary mt-auto" onClick={clearFilters}>
             Show All
           </button>
         </div>
       </form>
 
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Players</th>
-            <th scope="col">Age</th>
-          </tr>
-        </thead>
-        <tbody>
-          {gamesList.map((game) => (
-            <tr data-cy="games-page-content-game" key={game.name}>
-              <th scope="row">{game.id}</th>
-              <td>
-                <Link href={`/games/${game.id}`}>
-                  <a>{game.name}</a>
-                </Link>
-              </td>
-              <td>
-                {game.playerMinimum} - {game.playerMaximum}
-              </td>
-              <td>{game.age}</td>
+      {gamesList.length == 0 ? (
+        <div class="alert alert-primary" role="alert">
+          No game matches your search criteria.
+        </div>
+      ) : (
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Players</th>
+              <th scope="col">Age</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {gamesList.map((game) => (
+              <tr data-cy="games-page-content-game" key={game.name}>
+                <td>
+                  <Link href={`/games/${game.id}`}>
+                    <a>{game.name}</a>
+                  </Link>
+                </td>
+                <td>
+                  {game.playerMinimum}{' '}
+                  {game.playerMinimum != game.playerMaximum && (
+                    <>- {game.playerMaximum}</>
+                  )}
+                </td>
+                <td>{game.age}+</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </>
   );
 }
