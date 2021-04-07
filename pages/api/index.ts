@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createNewGame, getAllGames } from '../../util/database';
+import {
+  createNewGame,
+  getAllGames,
+  handleReservationPullback,
+} from '../../util/database';
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,4 +24,11 @@ export default async function handler(
     );
     res.json(game);
   }
+
+  if (req.method === 'PATCH') {
+    const updatedGame = await handleReservationPullback(
+      req.body.userIdReservation,
+    );
+    res.json(updatedGame);
+  } // funktioniert nicht, da bräuchte ich noch die genaue game davor glaube ich
 }

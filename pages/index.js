@@ -11,6 +11,7 @@ export default function Home() {
       <h1>Playpoly</h1>
 
       <p>this is the home page of an amazing boardgame rental</p>
+      <p>Register, rent and play - all year round with one time fee!</p>
     </>
   );
 }

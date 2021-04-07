@@ -21,6 +21,8 @@ export default async function handler(req, res) {
   const userId = await getUserIdFromSessions(token);
   const id = userId.userId;
 
+  console.log('checking if game is available for gameId=', gameId);
+
   const availability = await isGameAvailable(gameId);
   if (availability === false) {
     return res.status(404).send({ message: 'Game is at the moment rented' });

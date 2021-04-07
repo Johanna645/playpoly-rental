@@ -142,6 +142,7 @@ export default function Manage(props) {
             <th scope="col">#</th>
             <th scope="col">Game</th>
             <th scope="col">Rented</th>
+            <th scope="col">Returned</th>
             <th scope="col">Reserved</th>
             <th scope="col">Notify</th>
           </tr>
@@ -156,6 +157,28 @@ export default function Manage(props) {
                 </Link>
               </td>
               <td>{game.userIdRental}</td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  value="Return"
+                  // disabled={}
+                  onClick={async () => {
+                    await fetch(`/api/${game.id}`, {
+                      method: 'PATCH',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        id: game.id,
+                        userIdRental: null,
+                      }),
+                    });
+                  }}
+                >
+                  Return
+                </button>
+              </td>
               <td>{game.userIdReservation}</td>
               <td>
                 <button type="button" class="btn btn-info">

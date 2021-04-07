@@ -16,31 +16,25 @@ export default function MyGames(props) {
     return false; // returns nothing, function is supposed just to filter and set the cookie anew
   }
 
-  async function rentGame(id) {
-    const response = await fetch(`/api/gameId/${id}`);
-    const data = await response.json();
-    // console.log(data);
-  }
+  async function rentGames() {
+    props.userBookings.forEach((game) => {
+      fetch(`/api/gameId/${game.gameId}`);
+    });
 
-  async function makeAReservationForGame(idReservation) {
-    const response = await fetch(`/api/reservation/${idReservation}`);
-    const data = await response.json();
-    console.log(data);
+    Cookies.remove('bookings');
   }
 
   return (
     <>
       <Head>
-        <title>My Games</title>
+        <title>My Cart</title>
       </Head>
-      <h2>Games chosen:</h2>
+      <h2>Cart:</h2>
 
       <table className="table table-striped">
         <thead>
           <tr>
             <th scope="col">Game name</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -54,31 +48,11 @@ export default function MyGames(props) {
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <button
                     type="button"
-                    class="btn btn-outline-dark"
+                    class="btn btn-small btn-danger"
                     onClick={() => handleClickToRemove(gameFromCookie.gameId)}
                     value="Remove"
                   >
-                    Remove
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-dark"
-                    disabled={showRentalSuccess}
-                    onClick={() => rentGame(gameFromCookie.gameId)}
-                    value="Rent"
-                  >
-                    Rent
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-dark"
-                    disabled={!props.canUserReserve}
-                    onClick={() =>
-                      makeAReservationForGame(gameFromCookie.gameId)
-                    }
-                    value="Reservation"
-                  >
-                    Reserve
+                    x
                   </button>
                 </div>
               </td>
@@ -92,11 +66,15 @@ export default function MyGames(props) {
         </tbody>
       </table>
 
-      {/* <button
-      here possible still old bookings listed and empty bookings-cookie
-      Cookies.remove('bookings')
-
-      </button> */}
+      <button
+        type="button"
+        class="btn btn-primary"
+        disabled={showRentalSuccess}
+        onClick={() => rentGames()}
+        value="Rent"
+      >
+        Rent All
+      </button>
     </>
   );
 }

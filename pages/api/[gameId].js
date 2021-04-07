@@ -4,6 +4,7 @@ import {
   deleteGameById,
   getUserIdFromSessions,
   isUserAdmin,
+  handleRentalReturn,
 } from '../../util/database';
 
 export default async function handler(req, res) {
@@ -30,10 +31,10 @@ export default async function handler(req, res) {
     return res.status(404).send({ message: 'No match found' });
   }
 
-  // if (req.method === 'PATCH') {
-  //   const updatedGame = await updateGameNameId(id, req.body.name);
-  //   res.json(updatedGame);
-  // }
+  if (req.method === 'PATCH') {
+    const updatedGame = await handleRentalReturn(gameId);
+    res.json(updatedGame);
+  }
 
   if (req.method === 'DELETE') {
     const deletedGame = await deleteGameById(gameId);

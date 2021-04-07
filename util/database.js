@@ -108,6 +108,7 @@ export async function makeUserAdmin(id, isAdmin) {
 }
 
 export async function isGameAvailable(gameId) {
+  /*
   const game = await sql`
   SELECT
     user_id_rental
@@ -117,11 +118,23 @@ export async function isGameAvailable(gameId) {
     id = ${gameId}
   `;
 
-  if (camelcaseRecords(game)[0] !== null) {
-    return false;
-  }
+  return camelcaseRecords(game)[0] === null;
 
-  return true;
+  */
+
+  // is null -> überprüft user_id_rental und gibt true oder false zurück und erzeugt dafür eine "temporäre spalte" ohne namen
+  // 'available' ist der name ('alias') für die "temporäre spalte" in der jetzt true oder false steht; wird verwendet im return für .available; name könnte auch ein anderer sein, z. B. can_rent, dann muss es auch im return [0].can_rent heissen
+
+  const availability = await sql`
+ SELECT
+    (user_id_rental is null) available
+  FROM
+    games
+  WHERE
+    id = ${gameId}
+    `;
+
+  return camelcaseRecords(availability)[0].available;
 }
 
 export async function canUserReserve(gameId) {
@@ -182,6 +195,18 @@ export async function createReservation(userId, gameId) {
   return camelcaseRecords(newReservation)[0];
 }
 
+export async function handleReservationPullback(gameId) {
+  const game = await sql`
+  UPDATE
+    games
+  SET
+    user_id_reservation = null
+  WHERE
+    id = ${gameId}
+  `;
+  return camelcaseRecords(game)[0];
+}
+
 export async function getAllUsers() {
   const users = await sql`SELECT * FROM users`;
   return camelcaseRecords(users);
@@ -190,6 +215,16 @@ export async function getAllUsers() {
 export async function getSingleUser(id) {
   const user = await sql`SELECT * FROM users WHERE id = ${id}`;
   return camelcaseRecords(user)[0];
+}
+
+export async function getAllRentalsFromUser(id) {
+  const games = await sql`SELECT name FROM games WHERE user_id_rental = ${id}`;
+  return camelcaseRecords(games);
+}
+
+export async function getAllReservationsFromUser(id) {
+  const games = await sql`SELECT name FROM games WHERE user_id_reservation = ${id}`;
+  return camelcaseRecords(games);
 }
 
 // this is something for the later phase, just mock now

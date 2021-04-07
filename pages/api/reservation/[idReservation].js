@@ -2,6 +2,7 @@ import {
   createReservation,
   getUserIdFromSessions,
   canUserReserve,
+  handleReservationPullback,
 } from '../../../util/database';
 
 export default async function handler(req, res) {
@@ -14,10 +15,15 @@ export default async function handler(req, res) {
   }
 
   const gameId = req.query.idReservation;
-  // console.log(gameId)
+  console.log('test to see what gameId in reservation is', gameId);
 
   if (!gameId) {
     return res.status(404).send({ message: 'No match found' });
+  }
+
+  if (req.method === 'PATCH') {
+    const updatedGame = await handleReservationPullback(gameId);
+    res.json(updatedGame);
   }
 
   const userId = await getUserIdFromSessions(token);
