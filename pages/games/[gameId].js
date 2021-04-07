@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { addGameToBookings } from '../../util/cookies';
+import { isUserAdmin, canUserReserve } from '../../util/database';
 
 export default function Game(props) {
   // 2. state variable with the value from the cookie read in getServerSideProps
@@ -35,7 +36,6 @@ export default function Game(props) {
         <title>{props.game.name}</title>
       </Head>
       <h1>{props.game.name}</h1>
-      <div>id: {props.game.id}</div>
       <div>name: {props.game.name}</div>
       <div>
         {' '}
@@ -46,8 +46,13 @@ export default function Game(props) {
       <div> game description: {props.game.description}</div>
 
       <br />
-
-      {props.game.userIdRental === null && (
+      {/*
+        only show if
+        - available for rent
+        - currently logged in
+        - not an admin
+      */}
+      {props.game.userIdRental === null && props.userId !== null && (
         <button
           id="booking"
           className="btn btn-primary"
@@ -63,16 +68,23 @@ export default function Game(props) {
         </button>
       )}
 
-      {props.game.userIdRental === props.userId && (
-        <div class="alert alert-info" role="alert">
-          You currently rent this game.
+      {props.userId == null && (
+        <div className="alert alert-info" role="alert">
+          Log in to rent this game.
         </div>
       )}
+
+      {props.game.userIdRental != null &&
+        props.game.userIdRental === props.userId && (
+          <div className="alert alert-info" role="alert">
+            You currently rent this game.
+          </div>
+        )}
 
       {props.game.userIdRental !== null &&
         props.game.userIdRental !== props.userId && (
           <>
-            <div class="alert alert-warning" role="alert">
+            <div className="alert alert-warning" role="alert">
               This game is currently rented out. If you want, we can notify you
               when it is returned.
             </div>
@@ -92,7 +104,7 @@ export default function Game(props) {
       {showBookingSuccess && (
         <>
           <br />
-          <div class="alert alert-success" role="alert">
+          <div className="alert alert-success" role="alert">
             Successfully added {props.game.name} to your games!
           </div>
         </>
@@ -100,7 +112,7 @@ export default function Game(props) {
       {showReservationSuccess && (
         <>
           <br />
-          <div class="alert alert-success" role="alert">
+          <div className="alert alert-success" role="alert">
             We will notify you when the game becomes available.
           </div>
         </>
@@ -115,6 +127,7 @@ export async function getServerSideProps(context) {
   const { getSingleGame, getUserIdFromSessions } = await import(
     '../../util/database'
   );
+
   const gameId = context.query.gameId;
   const game = await getSingleGame(gameId);
 
@@ -125,7 +138,7 @@ export async function getServerSideProps(context) {
   const token = context.req.cookies.session;
   const userId = await getUserIdFromSessions(token);
 
-  const { canUserReserve } = await import('../../util/database');
+  const isAdmin = userId == null ? false : await isUserAdmin(userId.userId);
   const isReservationPossible = await canUserReserve(gameId);
 
   // 1. Cookie is read and if there is no cookie value yet, it will start an empty array
@@ -137,7 +150,8 @@ export async function getServerSideProps(context) {
     props: {
       bookingsCookieValue: bookingsCookieValue,
       game: game || null,
-      userId: userId.userId,
+      userId: userId == null ? null : userId.userId,
+      isAdmin: isAdmin,
       canUserReserve: isReservationPossible,
     },
   };
