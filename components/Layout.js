@@ -15,7 +15,7 @@ export default function Layout(props) {
             <a className="navbar-brand" href="/">
               Playpoly
             </a>
-            <small>Your rental for board games</small>
+            <small>Your board game rental</small>
             <button
               className="navbar-toggler"
               type="button"
@@ -28,14 +28,7 @@ export default function Layout(props) {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <Link href="/">
-                    <a className="nav-link active" href="/">
-                      Home
-                    </a>
-                  </Link>{' '}
-                </li>
+              <ul className="navbar-nav mx-auto">
                 <li className="nav-item">
                   <Link href="/search">
                     <a data-cy="header-games" className="nav-link">
@@ -43,7 +36,50 @@ export default function Layout(props) {
                     </a>
                   </Link>{' '}
                 </li>
-                {!props.isSessionValid ? (
+                {props.isSessionValid && (
+                  <li className="nav-item">
+                    <Link href="/myGames">
+                      <a className="nav-link">
+                        {/* embed a cart icon */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-cart"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>{' '}
+                        &nbsp;Cart
+                      </a>
+                    </Link>
+                  </li>
+                )}
+              </ul>
+              <ul className="navbar-nav mr-auto">
+                {props.isSessionValid ? (
+                  <>
+                    <li className="nav-item">
+                      <Link href="/admin/games/manage">
+                        <a className="nav-link">Admin</a>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link href="/myRentalsAndReservations">
+                        <a className="nav-link">My Games</a>
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link href="/logout">
+                        <a className="nav-link" data-cy="header-logout">
+                          Logout
+                        </a>
+                      </Link>
+                    </li>
+                  </>
+                ) : (
                   <>
                     <li className="nav-item">
                       <Link href="/register">
@@ -59,36 +95,6 @@ export default function Layout(props) {
                         </a>
                       </Link>
                     </li>
-                  </>
-                ) : (
-                  <>
-                    <li className="nav-item">
-                      <Link href="/logout">
-                        <a className="nav-link" data-cy="header-logout">
-                          Logout
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link href="/myGames">
-                        <a className="nav-link">Cart</a>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link href="/myRentalsAndReservations">
-                        <a className="nav-link">My Rentals and Reservations</a>
-                      </Link>
-                    </li>
-
-                    {!props.isUserAdmin ? (
-                      <div />
-                    ) : (
-                      <li className="nav-item">
-                        <Link href="/admin/games/manage">
-                          <a className="nav-link">Admin</a>
-                        </Link>
-                      </li>
-                    )}
                   </>
                 )}
               </ul>
