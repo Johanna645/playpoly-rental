@@ -15,6 +15,7 @@ export default function Manage(props) {
   const [description, setDescription] = useState('');
   const [users, setUsers] = useState([]);
   const [isAdminStatus, setIsAdminStatus] = useState();
+  const [showReturnSuccess, setShowReturnSuccess] = useState(false);
 
   async function showGames() {
     const response = await fetch('/api');
@@ -61,6 +62,7 @@ export default function Manage(props) {
               description: description,
             }),
           });
+          router.push('/admin/games/manage');
         }}
       >
         <div className="mb-3">
@@ -161,7 +163,7 @@ export default function Manage(props) {
                   type="button"
                   className="btn btn-primary"
                   value="Return"
-                  // disabled={}
+                  disabled={game.userIdRental === null || showReturnSuccess}
                   onClick={async () => {
                     await fetch(`/api/${game.id}`, {
                       method: 'PATCH',
@@ -173,6 +175,7 @@ export default function Manage(props) {
                         userIdRental: null,
                       }),
                     });
+
                     router.push('/admin/games/manage');
                   }}
                 >
@@ -236,6 +239,7 @@ export default function Manage(props) {
                           isAdmin: user.isAdmin ? false : true,
                         }),
                       });
+                      router.push('/admin/games/manage');
                     }}
                     checked={user.isAdmin}
                   />{' '}
@@ -254,6 +258,7 @@ export default function Manage(props) {
                         'Content-Type': 'application/json',
                       },
                     });
+                    router.push('/admin/games/manage');
                   }}
                 >
                   Remove user

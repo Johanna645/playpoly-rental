@@ -102,7 +102,6 @@ export default function MyGames(props) {
           )}
         </>
       )}
-      {/* wo ist meine reservations liste jetzt? */}
     </>
   );
 }
