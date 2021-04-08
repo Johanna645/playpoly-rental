@@ -36,21 +36,21 @@ export default function Game(props) {
         <title>{props.game.name}</title>
       </Head>
       <h1>{props.game.name}</h1>
-      <div>name: {props.game.name}</div>
-      <div>
+      <br />
+      <div class="container-sm">
         {' '}
-        amount of players: {props.game.playerMinimum} -{' '}
-        {props.game.playerMaximum}
+        For {props.game.playerMinimum} - {props.game.playerMaximum} players
       </div>
-      <div> recommended age: {props.game.age}</div>
-      <div> game description: {props.game.description}</div>
+      <div class="container-sm"> Recommended age: {props.game.age}+</div>
+      <br />
+      <div class="container-sm"> {props.game.description}</div>
 
       <br />
       {/*
         only show if
         - available for rent
         - currently logged in
-        - not an admin
+
       */}
       {props.game.userIdRental === null && props.userId !== null && (
         <button
