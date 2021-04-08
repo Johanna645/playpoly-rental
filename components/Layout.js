@@ -60,11 +60,13 @@ export default function Layout(props) {
               <ul className="navbar-nav mr-auto">
                 {props.isSessionValid ? (
                   <>
-                    <li className="nav-item">
-                      <Link href="/admin/games/manage">
-                        <a className="nav-link">Admin</a>
-                      </Link>
-                    </li>
+                    {props.isUserAdmin && (
+                      <li className="nav-item">
+                        <Link href="/admin/games/manage">
+                          <a className="nav-link">Admin</a>
+                        </Link>
+                      </li>
+                    )}
                     <li className="nav-item">
                       <Link href="/myRentalsAndReservations">
                         <a className="nav-link">My Games</a>
