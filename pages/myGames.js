@@ -47,8 +47,7 @@ export default function MyGames(props) {
         <>
           <h2>Cart:</h2>
 
-          {/* if (condition A) AND (condition B) are true, then show */}
-          {props.userBookings.length == 0 ? (
+          {props.userBookings.length === 0 ? (
             <div className="alert alert-info" role="alert">
               Your cart is empty. Pick a game and add it.
             </div>
@@ -103,6 +102,7 @@ export default function MyGames(props) {
           )}
         </>
       )}
+      {/* wo ist meine reservations liste jetzt? */}
     </>
   );
 }

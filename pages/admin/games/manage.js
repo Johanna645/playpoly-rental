@@ -144,7 +144,6 @@ export default function Manage(props) {
             <th scope="col">Rented</th>
             <th scope="col">Returned</th>
             <th scope="col">Reserved</th>
-            <th scope="col">Notify</th>
           </tr>
         </thead>
         <tbody>
@@ -174,17 +173,13 @@ export default function Manage(props) {
                         userIdRental: null,
                       }),
                     });
+                    router.push('/admin/games/manage');
                   }}
                 >
-                  Return
+                  Return Game
                 </button>
               </td>
               <td>{game.userIdReservation}</td>
-              <td>
-                <button type="button" className="btn btn-info">
-                  Send notification
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>

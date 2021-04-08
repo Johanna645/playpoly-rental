@@ -72,7 +72,7 @@ export default function EditGame(props) {
             },
             // here is no body needed, since no new information is passed on, this is just deleting
           });
-          router.push('/games'); // maybe here still admin all games page?
+          router.push('/games');
         }}
       >
         Remove game
