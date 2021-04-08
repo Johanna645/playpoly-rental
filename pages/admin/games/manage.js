@@ -7,14 +7,15 @@ import { useRouter } from 'next/router';
 
 export default function Manage(props) {
   const router = useRouter();
+
   const [games, setGames] = useState([]);
   const [name, setName] = useState('');
-  const [playerMinimum, setPlayerMinimum] = useState();
-  const [playerMaximum, setPlayerMaximum] = useState();
-  const [age, setAge] = useState();
+  const [playerMinimum, setPlayerMinimum] = useState(1);
+  const [playerMaximum, setPlayerMaximum] = useState(8);
+  const [age, setAge] = useState(1);
   const [description, setDescription] = useState('');
   const [users, setUsers] = useState([]);
-  const [isAdminStatus, setIsAdminStatus] = useState();
+  const [isAdminStatus, setIsAdminStatus] = useState(false);
   const [showReturnSuccess, setShowReturnSuccess] = useState(false);
 
   async function showGames() {
@@ -40,12 +41,12 @@ export default function Manage(props) {
       <Head>
         <title>Manage</title>
       </Head>
-      <h1>Manage games and rentals</h1>
+      <h1 className="mt-5">Manage Games and Rentals</h1>
 
-      <h2>Add new game</h2>
+      <h2 className="mt-5">Add New Game</h2>
 
       <form
-        className="row row-cols-lg-auto g-3 align-items-center"
+        className="row mt-3 mb-3"
         onSubmit={async (event) => {
           event.preventDefault();
 
@@ -65,124 +66,151 @@ export default function Manage(props) {
           router.push('/admin/games/manage');
         }}
       >
-        <div className="mb-3">
-          <label className="form-label">
-            Game name:
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(event) => {
-                setName(event.currentTarget.value);
-              }}
-            />
+        <div className="col-12 mb-3">
+          <label className="form-label" htmlFor="gameName">
+            Game Name
           </label>
+          <input
+            type="text"
+            className="form-control"
+            value={name}
+            id="gameName"
+            minLength="1"
+            maxLength="100"
+            required="required"
+            onChange={(event) => {
+              setName(event.currentTarget.value);
+            }}
+          />
         </div>
-        <div className="col-md-2">
-          <label className="form-label">
-            Minimum player amount:
-            <input
-              type="integer"
-              className="form-control"
-              value={playerMinimum}
-              onChange={(event) => {
-                setPlayerMinimum(event.currentTarget.value);
-              }}
-            />
+        <div className="col-12 col-md-4 mb-3">
+          <label className="form-label" htmlFor="gamePlayerMinimum">
+            Minimum Player Amount
           </label>
+          <input
+            type="number"
+            min="1"
+            max="100"
+            required="required"
+            className="form-control"
+            value={playerMinimum}
+            id="gamePlayerMinimum"
+            onChange={(event) => {
+              setPlayerMinimum(event.currentTarget.value);
+            }}
+          />
         </div>
-        <div className="col-md-2">
-          <label className="form-label">
-            Maximum player amount:
-            <input
-              type="integer"
-              className="form-control"
-              value={playerMaximum}
-              onChange={(event) => {
-                setPlayerMaximum(event.currentTarget.value);
-              }}
-            />
+        <div className="col-12 col-md-4 mb-3">
+          <label className="form-label" htmlFor="gamePlayerMaximum">
+            Maximum Player Amount
           </label>
+          <input
+            type="number"
+            min="1"
+            max="100"
+            required="required"
+            className="form-control"
+            value={playerMaximum}
+            id="gamePlayerMaximum"
+            onChange={(event) => {
+              setPlayerMaximum(event.currentTarget.value);
+            }}
+          />
+        </div>
+        <div className="col-12 col-md-4 mb-3">
+          <label className="form-label" htmlFor="gameAge">
+            Recommended Minimum Age
+          </label>
+          <input
+            type="number"
+            min="1"
+            max="99"
+            required="required"
+            className="form-control"
+            value={age}
+            id="gameAge"
+            onChange={(event) => {
+              setAge(event.currentTarget.value);
+            }}
+          />
+        </div>
+        <div className="col-12 mb-3">
+          <label className="form-label" htmlFor="gameDescription">
+            Description
+          </label>
+          <textarea
+            className="form-control"
+            rows="5"
+            id="gameDescription"
+            required="required"
+            value={description}
+            onChange={(event) => {
+              setDescription(event.currentTarget.value);
+            }}
+          />
         </div>
         <div className="col-12">
-          <label className="form-label">
-            Recommended age:
-            <input
-              type="integer"
-              className="form-control"
-              value={age}
-              onChange={(event) => {
-                setAge(event.currentTarget.value);
-              }}
-            />
-          </label>
+          <button type="submit" className="btn btn-primary">
+            Add Game
+          </button>
         </div>
-        <div className="col-12">
-          <label className="form-label">
-            Description:
-            <textarea
-              className="form-control"
-              rows="3"
-              value={description}
-              onChange={(event) => {
-                setDescription(event.currentTarget.value);
-              }}
-            />
-          </label>
-        </div>
-
-        <button type="submit" className="btn btn-primary">
-          Add game
-        </button>
       </form>
 
-      <h2>Edit games and manage rentals</h2>
+      <h2 className="mt-5 mb-3">Games &amp; Returns</h2>
 
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            {/* <th scope="col">#</th> */}
             <th scope="col">Game</th>
-            <th scope="col">Rented</th>
+            {/* <th scope="col">Rented</th>
             <th scope="col">Returned</th>
-            <th scope="col">Reserved</th>
+            <th scope="col">Reserved</th> */}
+            <th scope="col"> </th>
           </tr>
         </thead>
         <tbody>
           {props.games.map((game) => (
             <tr key={`game-${game.id}`}>
-              <th scope="row">{game.id}</th>
+              {/* <th scope="row">{game.id}</th> */}
               <td>
                 <Link href={`/admin/games/${game.id}`}>
                   <a>{game.name}</a>
                 </Link>
               </td>
-              <td>{game.userIdRental}</td>
+              {/* <td>{game.userIdRental}</td> */}
               <td>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  value="Return"
-                  disabled={game.userIdRental === null || showReturnSuccess}
-                  onClick={async () => {
-                    await fetch(`/api/${game.id}`, {
-                      method: 'PATCH',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        id: game.id,
-                        userIdRental: null,
-                      }),
-                    });
+                {game.userIdRental !== null && !showReturnSuccess && (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    value="Return"
+                    disabled={game.userIdRental === null || showReturnSuccess}
+                    onClick={async () => {
+                      await fetch(`/api/${game.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          id: game.id,
+                          userIdRental: null,
+                        }),
+                      });
 
-                    router.push('/admin/games/manage');
-                  }}
-                >
-                  Return Game
-                </button>
+                      router.push('/admin/games/manage');
+                      if (game.userIdReservation !== null) {
+                        console.log(
+                          `${game.name} is available, do you want to rent the game?`,
+                        );
+                      }
+                    }}
+                  >
+                    Accept Return
+                  </button>
+                )}
               </td>
-              <td>{game.userIdReservation}</td>
+              {/* <td>{game.userIdReservation}</td> */}
             </tr>
           ))}
         </tbody>
@@ -202,11 +230,11 @@ export default function Manage(props) {
       </div> */}
 
       {/* <button onClick={showUsers}>See all users</button>  which is better, to have it under a button or listed right away?*/}
-      <h2>Edit users</h2>
+      <h2 className="mt-5 mb-3">Edit Users</h2>
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            {/* <th scope="col">#</th> */}
             <th scope="col">Username</th>
             <th scope="col">Contact</th>
             <th scope="col">Admin</th>
@@ -216,7 +244,7 @@ export default function Manage(props) {
         <tbody>
           {props.users.map((user) => (
             <tr key={user.username}>
-              <th scope="row">{user.id}</th>
+              {/* <th scope="row">{user.id}</th> */}
               <td>{user.username}</td>
               <td>
                 <p>placeholder for contact</p>
