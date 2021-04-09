@@ -107,20 +107,16 @@ export default function Layout(props) {
 
       <div className="container">{props.children}</div>
 
-      <footer>
-        <div className="container">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link href="/terms">
-                <a>Terms of use</a>
-              </Link>{' '}
-            </li>
-            <li className="nav-item">
-              <Link href="mailto:rental@playpoly.rental">
-                <a>rental@playpoly.rental</a>
-              </Link>{' '}
-            </li>
-          </ul>
+      <footer className="container mt-5 mb-5">
+        <div className="text-center">
+          &copy; 2021 Playpoly &bull;{' '}
+          <Link href="/terms">
+            <a>Terms</a>
+          </Link>{' '}
+          &bull;&nbsp;
+          <Link href="mailto:playpoly.rental@gmail.com">
+            <a>Contact Us</a>
+          </Link>{' '}
         </div>
       </footer>
     </>
