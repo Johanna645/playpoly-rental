@@ -5,7 +5,10 @@ import {
   getUserIdFromSessions,
   isUserAdmin,
   handleRentalReturn,
+  getReservation,
 } from '../../util/database';
+
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   const token = req.cookies.session;
@@ -33,6 +36,39 @@ export default async function handler(req, res) {
 
   if (req.method === 'PATCH') {
     const updatedGame = await handleRentalReturn(gameId);
+
+    const reservation = await getReservation(gameId);
+    if (reservation) {
+      // create reusable transporter object using the default SMTP transport
+      const transporter = nodemailer.createTransport(
+        'smtps://playpoly.rental%40gmail.com:I-WONT-TELL@smtp.gmail.com',
+      );
+
+      // https://support.google.com/mail/answer/7126229?hl=de
+      // https://nodemailer.com/about/
+      // https://nodemailer.com/usage/using-gmail/ -> 'less secure' setting in gmail
+
+      // setup e-mail data with unicode symbols
+      const mailOptions = {
+        from: '"Playpoly" <playpoly.rental@gmail.com>', // sender address
+        to: reservation.email, // list of receivers
+        subject: reservation.name + ' is available', // Subject line
+        text: reservation.name + 'is now availabe for rent!', // plaintext body
+        html:
+          'Hi!<br /><br />Just so you know, ' +
+          reservation.name +
+          ' is now available for rent!<br/><br/>If you want the game, come by our rental to pick it up anytime!<br /><br /<Have fun playing!<br/><br/>Johanna @ PlayPoly', // html body
+      };
+
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+      });
+    }
+
     res.json(updatedGame);
   }
 

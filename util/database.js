@@ -183,6 +183,20 @@ export async function handleRentalReturn(gameId) {
   return camelcaseRecords(game)[0];
 }
 
+export async function getReservation(gameId) {
+  const reservation = await sql`
+  SELECT
+    games.name, users.email
+  FROM
+    games
+  JOIN
+    users ON games.user_id_reservation = users.id
+  WHERE
+    games.id = ${gameId}
+  `;
+  return camelcaseRecords(reservation)[0];
+}
+
 export async function createReservation(userId, gameId) {
   const newReservation = await sql`
      UPDATE
@@ -393,12 +407,12 @@ export async function getUserWithHashedPasswordByUsername(username) {
 }
 
 // this is to create a single user, that's why also returning users[0]
-export async function createUser(username, passwordHash) {
+export async function createUser(username, passwordHash, email, phone) {
   const users = await sql`
     INSERT INTO users
-      (username, password_hash)
+      (username, password_hash, email, phone)
     VALUES
-      (${username}, ${passwordHash})
+      (${username}, ${passwordHash}, ${email}, ${phone})
     RETURNING id, username
   `;
   return camelcaseRecords(users)[0];
