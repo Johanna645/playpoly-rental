@@ -39,6 +39,8 @@ export default function Register(props: Props) {
                 body: JSON.stringify({
                   username,
                   password,
+                  email,
+                  phoneNumber,
                   csrfToken: props.csrfToken,
                 }),
               }); // here password is sent to the backend api in plain text, which is a danger if on "open wifi" or so where someone might follow the traffic
@@ -64,79 +66,97 @@ export default function Register(props: Props) {
             }}
           >
             <div className="mb-3">
-              <label className="form-label">
+              <label className="form-label" htmlFor="username">
                 Username
-                <input
-                  type="text"
-                  className="form-control"
-                  value={username}
-                  onChange={(event) => setUsername(event.currentTarget.value)}
-                />
               </label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                minLength="1"
+                maxLength="100"
+                required
+                value={username}
+                onChange={(event) => setUsername(event.currentTarget.value)}
+              />
             </div>
 
             <div className="mb-3">
-              <label className="form-label">
+              <label className="form-label" htmlFor="password">
                 Password
-                <input
-                  type="password"
-                  className="form-control"
-                  value={password}
-                  onChange={(event) => setPassword(event.currentTarget.value)}
-                />
               </label>
+              <input
+                type="password"
+                className="form-control"
+                value={password}
+                id="password"
+                minLength="1"
+                maxLength="100"
+                required
+                onChange={(event) => setPassword(event.currentTarget.value)}
+              />
             </div>
 
             {/* following fields are not connected with anything yet, they are not fields in the database yet, but here only as placeholders at the moment for later use */}
 
-            <div className="mb-3">
-              <label className="form-label">
+            {/* <div className="mb-3">
+              <label className="form-label" htmlFor="firstName">
                 First name
-                <input
-                  type="text"
-                  className="form-control"
-                  value={firstName}
-                  onChange={(event) => setFirstName(event.currentTarget.value)}
-                />
               </label>
+              <input
+                type="text"
+                className="form-control"
+                value={firstName}
+                id="firstName"
+                minLength="1"
+                maxLength="100"
+                required
+                onChange={(event) => setFirstName(event.currentTarget.value)}
+              />
             </div>
 
             <div className="mb-3">
-              <label className="form-label">
+              <label className="form-label" htmlFor="lastName">
                 Last name
-                <input
-                  type="text"
-                  className="form-control"
-                  value={lastName}
-                  onChange={(event) => setLastName(event.currentTarget.value)}
-                />
               </label>
-            </div>
+              <input
+                type="text"
+                className="form-control"
+                value={lastName}
+                id="lastName"
+                minLength="1"
+                maxLength="100"
+                required
+                onChange={(event) => setLastName(event.currentTarget.value)}
+              />
+            </div> */}
 
             <div className="mb-3">
-              <label className="form-label">
+              <label className="form-label" htmlFor="email">
                 Email
-                <input
-                  type="email"
-                  className="form-control"
-                  value={email}
-                  onChange={(event) => setEmail(event.currentTarget.value)}
-                />
               </label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                id="email"
+                required
+                onChange={(event) => setEmail(event.currentTarget.value)}
+              />
             </div>
 
             <div className="mb-3">
-              <label className="form-label">
+              <label className="form-label" htmlFor="phone">
                 Phone number
-                <input
-                  type="tel"
-                  className="form-control"
-                  value={phoneNumber}
-                  onChange={(event) =>
-                    setPhoneNumber(event.currentTarget.value)
-                  }
-                />
               </label>
+              <input
+                type="tel"
+                className="form-control"
+                value={phoneNumber}
+                id="phone"
+                required
+                onChange={(event) => setPhoneNumber(event.currentTarget.value)}
+              />
             </div>
 
             <button type="submit" className="btn btn-primary">
