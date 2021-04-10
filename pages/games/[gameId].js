@@ -34,91 +34,112 @@ export default function Game(props) {
       <Head>
         <title>{props.game.name}</title>
       </Head>
-      <h1>{props.game.name}</h1>
-      <br />
-      <div class="container-sm">
-        {' '}
-        For {props.game.playerMinimum} - {props.game.playerMaximum} players
-      </div>
-      <div class="container-sm"> Recommended age: {props.game.age}+</div>
-      <br />
-      <div class="container-sm"> {props.game.description}</div>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <h1>{props.game.name}</h1>
+          </div>
+          <div className="col-6">
+            <h4>Players</h4>
+            <p>
+              {props.game.playerMinimum}{' '}
+              {props.game.playerMinimum != props.game.playerMaximum && (
+                <>- {props.game.playerMaximum}</>
+              )}{' '}
+              players
+            </p>
 
-      <br />
-      {/*
+            <h4>Age</h4>
+            <p>{props.game.age}+ recommended</p>
+
+            <h4>Description</h4>
+            <p>{props.game.description}</p>
+          </div>
+          <div className="col-6">
+            <img
+              src="/games/pictionary.jpeg"
+              alt="{props.game.name} cover"
+              className="game-cover"
+            />
+          </div>
+
+          <div className="col-12">
+            {/*
         only show if
         - available for rent
         - currently logged in
-
       */}
-      {props.game.userIdRental === null && props.userId !== null && (
-        <button
-          id="booking"
-          className="btn btn-primary"
-          disabled={showBookingSuccess}
-          onClick={() => {
-            const newBooking = addGameToBookings(bookings, props.game.id);
+            {props.game.userIdRental === null && props.userId !== null && (
+              <button
+                id="booking"
+                className="btn btn-primary"
+                disabled={showBookingSuccess}
+                onClick={() => {
+                  const newBooking = addGameToBookings(bookings, props.game.id);
 
-            setBookings(newBooking);
-            setShowBookingSuccess(true);
-          }}
-        >
-          Add to Cart
-        </button>
-      )}
-
-      {props.userId == null ? (
-        <div className="alert alert-info" role="alert">
-          Log in to rent this game.
-        </div>
-      ) : (
-        <>
-          {props.game.userIdRental != null &&
-            props.game.userIdRental === props.userId && (
-              <div className="alert alert-info" role="alert">
-                You currently rent this game.
-              </div>
+                  setBookings(newBooking);
+                  setShowBookingSuccess(true);
+                }}
+              >
+                Add to Cart
+              </button>
             )}
 
-          {props.game.userIdRental !== null &&
-            props.game.userIdRental !== props.userId && (
+            {props.userId == null ? (
+              <div className="alert alert-info" role="alert">
+                Log in to rent this game.
+              </div>
+            ) : (
               <>
-                <div className="alert alert-danger" role="alert">
-                  This game is currently rented out. If you want, we can notify
-                  you when it is returned.
-                </div>
-                <br />
-                <button
-                  disabled={!props.canUserReserve || showReservationSuccess}
-                  className="btn btn-primary"
-                  onClick={() => makeAReservationForGame(props.game.id)}
-                  value="Reservation"
-                >
-                  Notify when Available
-                </button>
+                {props.game.userIdRental != null &&
+                  props.game.userIdRental === props.userId && (
+                    <div className="alert alert-info" role="alert">
+                      You currently rent this game.
+                    </div>
+                  )}
+
+                {props.game.userIdRental !== null &&
+                  props.game.userIdRental !== props.userId && (
+                    <>
+                      <div className="alert alert-danger" role="alert">
+                        This game is currently rented out. If you want, we can
+                        notify you when it is returned.
+                      </div>
+                      <br />
+                      <button
+                        disabled={
+                          !props.canUserReserve || showReservationSuccess
+                        }
+                        className="btn btn-primary"
+                        onClick={() => makeAReservationForGame(props.game.id)}
+                        value="Reservation"
+                      >
+                        Notify when Available
+                      </button>
+                    </>
+                  )}
               </>
             )}
-        </>
-      )}
-      <br />
-      {showBookingSuccess && (
-        <>
-          <br />
-          <div className="alert alert-primary" role="alert">
-            Successfully added {props.game.name} to your cart!
+            <br />
+            {showBookingSuccess && (
+              <>
+                <br />
+                <div className="alert alert-primary" role="alert">
+                  Successfully added {props.game.name} to your cart!
+                </div>
+              </>
+            )}
+            {showReservationSuccess && (
+              <>
+                <br />
+                <div className="alert alert-primary" role="alert">
+                  We will notify you when the game becomes available.
+                </div>
+              </>
+            )}
           </div>
-        </>
-      )}
-      {showReservationSuccess && (
-        <>
-          <br />
-          <div className="alert alert-primary" role="alert">
-            We will notify you when the game becomes available.
-          </div>
-        </>
-      )}
-
-      <br />
+        </div>
+      </div>
     </>
   );
 }
@@ -138,7 +159,7 @@ export async function getServerSideProps(context) {
   const token = context.req.cookies.session;
   const userId = await getUserIdFromSessions(token);
 
-  const isAdmin = userId == null ? false : await isUserAdmin(userId.userId);
+  const isAdmin = userId && userId.userId && (await isUserAdmin(userId.userId));
   const isReservationPossible = await canUserReserve(gameId);
 
   // 1. Cookie is read and if there is no cookie value yet, it will start an empty array
@@ -151,7 +172,7 @@ export async function getServerSideProps(context) {
       bookingsCookieValue: bookingsCookieValue,
       game: game || null,
       userId: userId == null ? null : userId.userId,
-      isAdmin: isAdmin,
+      isAdmin: isAdmin || false,
       canUserReserve: isReservationPossible,
     },
   };
