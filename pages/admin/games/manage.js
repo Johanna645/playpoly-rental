@@ -77,7 +77,7 @@ export default function Manage(props) {
             id="gameName"
             minLength="1"
             maxLength="100"
-            required="required"
+            required
             onChange={(event) => {
               setName(event.currentTarget.value);
             }}
@@ -91,7 +91,7 @@ export default function Manage(props) {
             type="number"
             min="1"
             max="100"
-            required="required"
+            required
             className="form-control"
             value={playerMinimum}
             id="gamePlayerMinimum"
@@ -108,7 +108,7 @@ export default function Manage(props) {
             type="number"
             min="1"
             max="100"
-            required="required"
+            required
             className="form-control"
             value={playerMaximum}
             id="gamePlayerMaximum"
@@ -125,7 +125,7 @@ export default function Manage(props) {
             type="number"
             min="1"
             max="99"
-            required="required"
+            required
             className="form-control"
             value={age}
             id="gameAge"
@@ -142,7 +142,7 @@ export default function Manage(props) {
             className="form-control"
             rows="5"
             id="gameDescription"
-            required="required"
+            required
             value={description}
             onChange={(event) => {
               setDescription(event.currentTarget.value);
@@ -210,6 +210,17 @@ export default function Manage(props) {
                   </button>
                 )}
               </td>
+              {/* <td>
+                {game.userIdReservation !== null && (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    value="status"
+                  >
+                    Reserved
+                  </button>
+                )}
+              </td> */}
               {/* <td>{game.userIdReservation}</td> */}
             </tr>
           ))}
