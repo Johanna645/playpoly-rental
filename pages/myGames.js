@@ -54,7 +54,7 @@ export default function MyGames(props) {
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Game name</th>
+                    <th scope="col">Game</th>
                     <th scope="col"> </th>
                   </tr>
                 </thead>
@@ -78,7 +78,7 @@ export default function MyGames(props) {
                             }
                             value="Remove"
                           >
-                            Remove
+                            Remove from Cart
                           </button>
                         </span>
                       </td>
