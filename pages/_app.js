@@ -1,3 +1,6 @@
+// set up bootstrap https://www.mikealche.com/software-development/setting-up-bootstrap-sass-on-next-js
+import '../styles/customTheme.scss';
+
 import { useEffect, useState, useCallback } from 'react';
 import Layout from '../components/Layout';
 // this is here to pass the function to Layout
