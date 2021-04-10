@@ -138,33 +138,36 @@ export default function Search(props) {
           No game matches your search criteria.
         </div>
       ) : (
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Players</th>
-              <th scope="col">Age</th>
-            </tr>
-          </thead>
-          <tbody>
-            {gamesList.map((game) => (
-              <tr data-cy="games-page-content-game" key={game.name}>
-                <td>
-                  <Link href={`/games/${game.id}`}>
-                    <a>{game.name}</a>
-                  </Link>
-                </td>
-                <td>
-                  {game.playerMinimum}{' '}
-                  {game.playerMinimum != game.playerMaximum && (
-                    <>- {game.playerMaximum}</>
-                  )}
-                </td>
-                <td>{game.age}+</td>
+        <>
+          <p>{gamesList.length} games found.</p>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Players</th>
+                <th scope="col">Age</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {gamesList.map((game) => (
+                <tr data-cy="games-page-content-game" key={game.name}>
+                  <td>
+                    <Link href={`/games/${game.id}`}>
+                      <a>{game.name}</a>
+                    </Link>
+                  </td>
+                  <td>
+                    {game.playerMinimum}{' '}
+                    {game.playerMinimum != game.playerMaximum && (
+                      <>- {game.playerMaximum}</>
+                    )}
+                  </td>
+                  <td>{game.age}+</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </>
   );
