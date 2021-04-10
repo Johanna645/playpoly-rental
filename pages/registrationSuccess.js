@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
-import { css } from '@emotion/react';
 import Link from 'next/link';
 
 export default function Home() {

@@ -1,6 +1,4 @@
 import Head from 'next/head';
-// import { css } from '@emotion/react';
-// import Link from 'next/link';
 import Cookies from 'js-cookie';
 // import { createNewRental } from '../util/database';
 import { useState } from 'react';

@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
-import { css } from '@emotion/react';
 
 export default function Terms() {
   return (

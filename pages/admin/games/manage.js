@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Layout from '../../../components/Layout';
-import { css } from '@emotion/react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

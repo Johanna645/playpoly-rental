@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Layout from '../../components/Layout';
 
-import { css } from '@emotion/react';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useState } from 'react';
