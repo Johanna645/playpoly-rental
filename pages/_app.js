@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.css';
-
 import { useEffect, useState, useCallback } from 'react';
 import Layout from '../components/Layout';
 // this is here to pass the function to Layout
