@@ -160,29 +160,25 @@ export default function Manage(props) {
       <table className="table table-striped">
         <thead>
           <tr>
-            {/* <th scope="col">#</th> */}
             <th scope="col">Game</th>
-            {/* <th scope="col">Rented</th>
-            <th scope="col">Returned</th>
-            <th scope="col">Reserved</th> */}
-            <th scope="col"> </th>
+            <th scope="col" colspan="2">
+              {' '}
+            </th>
           </tr>
         </thead>
         <tbody>
           {props.games.map((game) => (
             <tr key={`game-${game.id}`}>
-              {/* <th scope="row">{game.id}</th> */}
               <td>
-                <Link href={`/admin/games/${game.id}`}>
+                <Link href={`/games/${game.id}`}>
                   <a>{game.name}</a>
                 </Link>
               </td>
-              {/* <td>{game.userIdRental}</td> */}
               <td>
                 {game.userIdRental !== null && !showReturnSuccess && (
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary btn-sm mr-3"
                     value="Return"
                     disabled={game.userIdRental === null || showReturnSuccess}
                     onClick={async () => {
@@ -208,6 +204,26 @@ export default function Manage(props) {
                     Accept Return
                   </button>
                 )}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                  onClick={async () => {
+                    const confirmed = window.confirm('Really remove?');
+                    if (!confirmed) return;
+                    await fetch(`/api/${game.id}`, {
+                      method: 'DELETE',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      // here is no body needed, since no new information is passed on, this is just deleting
+                    });
+                    router.push('/admin/games/manage');
+                  }}
+                >
+                  Remove Game
+                </button>
               </td>
               {/* <td>
                 {game.userIdReservation !== null && (
@@ -286,7 +302,7 @@ export default function Manage(props) {
               <td>
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className="btn btn-danger btn-sm"
                   onClick={async () => {
                     const confirmed = window.confirm('Really remove?');
                     if (!confirmed) return;

@@ -58,25 +58,6 @@ export default function EditGame(props) {
       >
         Change game name
       </button> */}
-
-      <button
-        type="button"
-        className="btn btn-danger"
-        onClick={async () => {
-          const confirmed = window.confirm('Really remove?');
-          if (!confirmed) return;
-          await fetch(`/api/${props.game.id}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            // here is no body needed, since no new information is passed on, this is just deleting
-          });
-          router.push('/games');
-        }}
-      >
-        Remove Game
-      </button>
     </>
   );
 }
