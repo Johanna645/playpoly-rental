@@ -232,12 +232,12 @@ export async function getSingleUser(id) {
 }
 
 export async function getAllRentalsFromUser(id) {
-  const games = await sql`SELECT name FROM games WHERE user_id_rental = ${id}`;
+  const games = await sql`SELECT name, id FROM games WHERE user_id_rental = ${id}`;
   return camelcaseRecords(games);
 }
 
 export async function getAllReservationsFromUser(id) {
-  const games = await sql`SELECT name FROM games WHERE user_id_reservation = ${id}`;
+  const games = await sql`SELECT name, id FROM games WHERE user_id_reservation = ${id}`;
   return camelcaseRecords(games);
 }
 
