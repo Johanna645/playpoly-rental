@@ -116,7 +116,7 @@ export default function Register(props: Props) {
                 />
               </label>
 
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary btn-lg">
                 Register
               </button>
             </div>
