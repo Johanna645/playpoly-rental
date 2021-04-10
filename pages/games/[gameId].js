@@ -67,51 +67,52 @@ export default function Game(props) {
         </button>
       )}
 
-      {props.userId == null && (
+      {props.userId == null ? (
         <div className="alert alert-info" role="alert">
           Log in to rent this game.
         </div>
+      ) : (
+        <>
+          {props.game.userIdRental != null &&
+            props.game.userIdRental === props.userId && (
+              <div className="alert alert-info" role="alert">
+                You currently rent this game.
+              </div>
+            )}
+
+          {props.game.userIdRental !== null &&
+            props.game.userIdRental !== props.userId && (
+              <>
+                <div className="alert alert-danger" role="alert">
+                  This game is currently rented out. If you want, we can notify
+                  you when it is returned.
+                </div>
+                <br />
+                <button
+                  disabled={!props.canUserReserve || showReservationSuccess}
+                  className="btn btn-primary"
+                  onClick={() => makeAReservationForGame(props.game.id)}
+                  value="Reservation"
+                >
+                  Notify when Available
+                </button>
+              </>
+            )}
+        </>
       )}
-
-      {props.game.userIdRental != null &&
-        props.game.userIdRental === props.userId && (
-          <div className="alert alert-info" role="alert">
-            You currently rent this game.
-          </div>
-        )}
-
-      {props.game.userIdRental !== null &&
-        props.game.userIdRental !== props.userId && (
-          <>
-            <div className="alert alert-warning" role="alert">
-              This game is currently rented out. If you want, we can notify you
-              when it is returned.
-            </div>
-            <br />
-            <button
-              disabled={!props.canUserReserve || showReservationSuccess}
-              className="btn btn-primary"
-              onClick={() => makeAReservationForGame(props.game.id)}
-              value="Reservation"
-            >
-              Notify when Available
-            </button>
-          </>
-        )}
-
       <br />
       {showBookingSuccess && (
         <>
           <br />
-          <div className="alert alert-success" role="alert">
-            Successfully added {props.game.name} to your games!
+          <div className="alert alert-primary" role="alert">
+            Successfully added {props.game.name} to your cart!
           </div>
         </>
       )}
       {showReservationSuccess && (
         <>
           <br />
-          <div className="alert alert-success" role="alert">
+          <div className="alert alert-primary" role="alert">
             We will notify you when the game becomes available.
           </div>
         </>

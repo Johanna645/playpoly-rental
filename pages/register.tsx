@@ -65,103 +65,61 @@ export default function Register(props: Props) {
               router.push(returnTo || `/registrationSuccess`);
             }}
           >
-            <div className="mb-3">
-              <label className="form-label" htmlFor="username">
+            <div className="d-grid gap-2">
+              <label className="form-label">
                 Username
+                <input
+                  type="text"
+                  className="form-control"
+                  value={username}
+                  minLength="1"
+                  maxLength="100"
+                  required
+                  onChange={(event) => setUsername(event.currentTarget.value)}
+                />
               </label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                minLength="1"
-                maxLength="100"
-                required
-                value={username}
-                onChange={(event) => setUsername(event.currentTarget.value)}
-              />
-            </div>
 
-            <div className="mb-3">
-              <label className="form-label" htmlFor="password">
+              <label className="form-label">
                 Password
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  minLength="1"
+                  maxLength="100"
+                  required
+                  onChange={(event) => setPassword(event.currentTarget.value)}
+                />
               </label>
-              <input
-                type="password"
-                className="form-control"
-                value={password}
-                id="password"
-                minLength="1"
-                maxLength="100"
-                required
-                onChange={(event) => setPassword(event.currentTarget.value)}
-              />
-            </div>
 
-            {/* following fields are not connected with anything yet, they are not fields in the database yet, but here only as placeholders at the moment for later use */}
-
-            {/* <div className="mb-3">
-              <label className="form-label" htmlFor="firstName">
-                First name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                value={firstName}
-                id="firstName"
-                minLength="1"
-                maxLength="100"
-                required
-                onChange={(event) => setFirstName(event.currentTarget.value)}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label" htmlFor="lastName">
-                Last name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                value={lastName}
-                id="lastName"
-                minLength="1"
-                maxLength="100"
-                required
-                onChange={(event) => setLastName(event.currentTarget.value)}
-              />
-            </div> */}
-
-            <div className="mb-3">
-              <label className="form-label" htmlFor="email">
+              <label className="form-label">
                 Email
+                <input
+                  type="email"
+                  className="form-control"
+                  value={email}
+                  required
+                  onChange={(event) => setEmail(event.currentTarget.value)}
+                />
               </label>
-              <input
-                type="email"
-                className="form-control"
-                value={email}
-                id="email"
-                required
-                onChange={(event) => setEmail(event.currentTarget.value)}
-              />
-            </div>
 
-            <div className="mb-3">
-              <label className="form-label" htmlFor="phone">
-                Phone number
+              <label className="form-label">
+                Phone Number
+                <input
+                  type="tel"
+                  className="form-control"
+                  value={phoneNumber}
+                  required
+                  onChange={(event) =>
+                    setPhoneNumber(event.currentTarget.value)
+                  }
+                />
               </label>
-              <input
-                type="tel"
-                className="form-control"
-                value={phoneNumber}
-                id="phone"
-                required
-                onChange={(event) => setPhoneNumber(event.currentTarget.value)}
-              />
-            </div>
 
-            <button type="submit" className="btn btn-primary">
-              Register
-            </button>
+              <button type="submit" className="btn btn-primary">
+                Register
+              </button>
+            </div>
 
             {errors.map((error) => (
               <div

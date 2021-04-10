@@ -63,7 +63,7 @@ export default function Login(props: Props) {
               props.refreshIsSessionValid();
             }}
           >
-            <div className="mb-3">
+            <div className="d-grid gap-2">
               <label className="form-label">
                 Username
                 <input
@@ -73,9 +73,7 @@ export default function Login(props: Props) {
                   onChange={(event) => setUsername(event.currentTarget.value)}
                 />
               </label>
-            </div>
 
-            <div className="mb-3">
               <label className="form-label">
                 Password
                 <input
@@ -85,11 +83,14 @@ export default function Login(props: Props) {
                   onChange={(event) => setPassword(event.currentTarget.value)}
                 />
               </label>
-            </div>
 
-            <button type="submit" className="btn btn-primary">
-              Login
-            </button>
+              <button
+                type="submit"
+                className="btn btn-primary btn-block btn-lg"
+              >
+                Login
+              </button>
+            </div>
 
             {errors.map((error) => (
               <div

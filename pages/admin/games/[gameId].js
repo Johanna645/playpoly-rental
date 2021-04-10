@@ -61,7 +61,7 @@ export default function EditGame(props) {
 
       <button
         type="button"
-        className="btn btn-warning"
+        className="btn btn-danger"
         onClick={async () => {
           const confirmed = window.confirm('Really remove?');
           if (!confirmed) return;
@@ -75,7 +75,7 @@ export default function EditGame(props) {
           router.push('/games');
         }}
       >
-        Remove game
+        Remove Game
       </button>
     </>
   );

@@ -9,13 +9,13 @@ export default function Layout(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <header className="bg-danger text-white mb-5">
+        <nav className="navbar navbar-expand-lg">
           <div className="container">
             <a className="navbar-brand" href="/">
               <img src="/logos/playpoly-logo-18.png" alt="Playpoly Logo" />
             </a>
-            <small>Your board game rental</small>
+            {/* <small>Your board game rental</small> */}
             <button
               className="navbar-toggler"
               type="button"
@@ -43,8 +43,8 @@ export default function Layout(props) {
                         {/* embed a cart icon */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
+                          width="24"
+                          height="24"
                           fill="currentColor"
                           className="bi bi-cart"
                           viewBox="0 0 16 16"
@@ -73,7 +73,7 @@ export default function Layout(props) {
                       </Link>
                     </li>
 
-                    <li>
+                    <li className="nav-item">
                       <Link href="/logout">
                         <a className="nav-link" data-cy="header-logout">
                           Logout
@@ -107,11 +107,11 @@ export default function Layout(props) {
 
       <div className="container">{props.children}</div>
 
-      <footer className="container mt-5 mb-5">
+      <footer className="container-fluid mt-5 pt-3 pb-3 bg-info text-white">
         <div className="text-center">
           &copy; 2021 Playpoly &bull;{' '}
           <Link href="/terms">
-            <a>Terms</a>
+            <a className="text-white">Terms</a>
           </Link>{' '}
           &bull;&nbsp;
           <Link href="mailto:playpoly.rental@gmail.com">

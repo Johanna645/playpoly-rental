@@ -40,12 +40,12 @@ export default function Manage(props) {
       <Head>
         <title>Manage</title>
       </Head>
-      <h1 className="mt-5">Manage Games and Rentals</h1>
+      <h1>Manage Games and Rentals</h1>
 
-      <h2 className="mt-5">Add New Game</h2>
+      <h2>Add New Game</h2>
 
       <form
-        className="row mt-3 mb-3"
+        className="row"
         onSubmit={async (event) => {
           event.preventDefault();
 
@@ -155,7 +155,7 @@ export default function Manage(props) {
         </div>
       </form>
 
-      <h2 className="mt-5 mb-3">Games &amp; Returns</h2>
+      <h2>Games &amp; Returns</h2>
 
       <table className="table table-striped">
         <thead>
@@ -240,7 +240,7 @@ export default function Manage(props) {
       </div> */}
 
       {/* <button onClick={showUsers}>See all users</button>  which is better, to have it under a button or listed right away?*/}
-      <h2 className="mt-5 mb-3">Edit Users</h2>
+      <h2>Edit Users</h2>
       <table className="table table-striped">
         <thead>
           <tr>
@@ -286,7 +286,7 @@ export default function Manage(props) {
               <td>
                 <button
                   type="button"
-                  className="btn btn-warning"
+                  className="btn btn-danger"
                   onClick={async () => {
                     const confirmed = window.confirm('Really remove?');
                     if (!confirmed) return;
@@ -299,7 +299,7 @@ export default function Manage(props) {
                     router.push('/admin/games/manage');
                   }}
                 >
-                  Remove user
+                  Remove User
                 </button>
               </td>
             </tr>

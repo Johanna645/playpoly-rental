@@ -71,7 +71,7 @@ export default function Search(props) {
       </Head>
       <h1 data-cy="games-page-content-h1">Games</h1>
 
-      <form className="row g3 mt-5 mb-5" onSubmit={filterEverything}>
+      <form className="row g3" onSubmit={filterEverything}>
         <div className="col-4">
           <label htmlFor="searchText" className="flex-fill">
             Name or Description

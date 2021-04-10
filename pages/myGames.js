@@ -35,7 +35,7 @@ export default function MyGames(props) {
         <title>My Cart</title>
       </Head>
       {showRentalSuccess ? (
-        <div className="alert alert-success mb-5" role="alert">
+        <div className="alert alert-primary mb-5" role="alert">
           The games are yours - have fun!{' '}
           <span role="img" aria-label="Smiley">
             😊
@@ -43,7 +43,7 @@ export default function MyGames(props) {
         </div>
       ) : (
         <>
-          <h2>Cart:</h2>
+          <h1>Cart</h1>
 
           {props.userBookings.length === 0 ? (
             <div className="alert alert-info" role="alert">
