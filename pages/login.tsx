@@ -5,8 +5,6 @@ import { GetServerSidePropsContext } from 'next';
 import { Error } from '../util/types';
 import { useRouter } from 'next/router';
 
-// import { createSession, deleteAllExpiredSessions } from './database'; this was taken out from karls version
-
 // refactor type alias, so what was csrfToken as props is now just Props
 type Props = {
   csrfToken: string;
