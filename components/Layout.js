@@ -13,7 +13,7 @@ export default function Layout(props) {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container">
             <a className="navbar-brand" href="/">
-              Playpoly
+              <img src="/logos/playpoly-logo-18.png" alt="Playpoly Logo" />
             </a>
             <small>Your board game rental</small>
             <button
