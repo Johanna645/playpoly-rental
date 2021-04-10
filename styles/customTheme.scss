@@ -1,36 +1,54 @@
 //Your customizations must come before bootstrap import
 
+// set monopoly colors
 $primary: #8fbc72;
 $secondary: #bfdbae;
 $danger: #c70000;
 $info: #d7baaa;
 
+// user different fonts for headings & b
 $headings-font-family: 'Bebas Neue';
 $headings-color: #c70000;
 
 $font-family-base: 'Roboto';
 $font-size-base: 1.2rem;
 
+// style links in header nav
 $nav-link-font-size: 1.8em !default;
 $nav-link-color: white !default;
 
 .nav-item {
   font-family: 'Bebas Neue';
 }
+
+// style footer links
 footer a {
   color: white;
   text-decoration: none;
 }
 
+// increase spacing for ..
+
+// .. everything
 $spacer: 1.5rem;
 
+// .. additionally, for forms
 form {
   padding-top: 1em;
   padding-bottom: 3em;
 }
 
-// $alert-margin-bottom: 1.5rem;
-// $alert-margin-top: 1.5rem;
+// .. additionally, for alerts
+.alert {
+  margin-top: 1.5em;
+}
+
+// .. for game cover images, so they don't stick to the text
+.game-cover {
+  padding-left: 3em;
+}
+
+// import Google Web Fonts
 
 // https://fonts.google.com/specimen/Roboto
 @import url('http://fonts.googleapis.com/css?family=Roboto:400,700');
