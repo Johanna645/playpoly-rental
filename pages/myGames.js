@@ -43,7 +43,7 @@ export default function MyGames(props) {
         </div>
       ) : (
         <>
-          <h1>Cart</h1>
+          <h1>My Cart</h1>
 
           {props.userBookings.length === 0 ? (
             <div className="alert alert-info" role="alert">
@@ -55,7 +55,7 @@ export default function MyGames(props) {
                 <thead>
                   <tr>
                     <th scope="col">Game name</th>
-                    <th scope="col"></th>
+                    <th scope="col"> </th>
                   </tr>
                 </thead>
 
@@ -72,7 +72,7 @@ export default function MyGames(props) {
                         >
                           <button
                             type="button"
-                            className="btn btn-small btn-danger"
+                            className="btn btn-sm btn-danger"
                             onClick={() =>
                               handleClickToRemove(gameFromCookie.gameId)
                             }

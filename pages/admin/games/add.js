@@ -33,7 +33,7 @@ export default function AddNewGame() {
         }}
       >
         <label>
-          Game name:
+          Name:
           <input
             value={name}
             onChange={(event) => {
@@ -42,7 +42,7 @@ export default function AddNewGame() {
           />
         </label>
         <label>
-          Minimum player amount:
+          Minimum Player Amount:
           <input
             value={playerMinimum}
             onChange={(event) => {
@@ -51,7 +51,7 @@ export default function AddNewGame() {
           />
         </label>
         <label>
-          Maximum player amount:
+          Maximum Player Amount:
           <input
             value={playerMaximum}
             onChange={(event) => {
