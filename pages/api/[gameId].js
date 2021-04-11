@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     if (reservation) {
       // create reusable transporter object using the default SMTP transport
       const transporter = nodemailer.createTransport(
-        'smtps://playpoly.rental%40gmail.com:I-WONT-TELL@smtp.gmail.com',
+        process.env.EMAIL_AUTHENTICATION_SETTINGS,
       );
 
       // https://support.google.com/mail/answer/7126229?hl=de
