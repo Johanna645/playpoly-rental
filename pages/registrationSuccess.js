@@ -8,15 +8,21 @@ export default function Home() {
       <Head>
         <title>Registration Successfull</title>
       </Head>
-      <h1>Thank you for your registration!</h1>
-      <p>Please login to start booking and take a look at our </p>
-      <Link href="/terms">
-        <a>terms of use</a>
-      </Link>{' '}
-      <p>
-        {' '}
-        where you can find important information about our renting process.
-      </p>
+      <div className="text-center">
+        <h1>Registered!</h1>
+        <p>
+          Next, have a look at our{' '}
+          <Link href="/search">
+            <a>game library</a>
+          </Link>
+          .
+        </p>
+        <img
+          src="https://dummyimage.com/600x400/000/fff"
+          alt="Login"
+          className="mt-5"
+        />
+      </div>
     </>
   );
 }

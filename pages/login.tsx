@@ -23,9 +23,8 @@ export default function Login(props: Props) {
         <title>Login</title>
       </Head>
 
-      <div className="row">
-        <div className="col-12 offset-md-4 col-md-4">
-          {' '}
+      <div className="row gx-5">
+        <div className="col-4">
           <h1>Login</h1>
           <form
             onSubmit={async (event) => {
@@ -67,6 +66,7 @@ export default function Login(props: Props) {
               <label className="form-label">
                 Username
                 <input
+                  data-cy="login-username"
                   type="text"
                   className="form-control"
                   value={username}
@@ -77,6 +77,7 @@ export default function Login(props: Props) {
               <label className="form-label">
                 Password
                 <input
+                  data-cy="login-password"
                   type="password"
                   className="form-control"
                   value={password}
@@ -85,6 +86,7 @@ export default function Login(props: Props) {
               </label>
 
               <button
+                data-cy="login-submit-button"
                 type="submit"
                 className="btn btn-primary btn-block btn-lg"
               >
@@ -101,6 +103,13 @@ export default function Login(props: Props) {
               </div>
             ))}
           </form>
+        </div>
+        <div className="col-md-8">
+          <img
+            src="https://dummyimage.com/600x400/000/fff"
+            alt="Login"
+            className="mx-auto d-block"
+          />
         </div>
       </div>
     </>

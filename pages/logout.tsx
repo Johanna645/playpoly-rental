@@ -17,7 +17,15 @@ export default function Logout(props: Props) {
       <Head>
         <title>Logged out successfully</title>
       </Head>
-      <h1>Logged out successfully</h1>
+      <div className="text-center">
+        <h1>Logged out</h1>
+        <p>See you next time!</p>
+        <img
+          src="https://dummyimage.com/600x400/000/fff"
+          alt="Logged out"
+          className="mt-5"
+        />
+      </div>
     </>
   );
 }

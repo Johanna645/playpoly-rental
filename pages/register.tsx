@@ -23,8 +23,8 @@ export default function Register(props: Props) {
         <title>Register</title>
       </Head>
 
-      <div className="row">
-        <div className="col-12 offset-md-4 col-md-4">
+      <div className="row gx-5">
+        <div className="col-4">
           {' '}
           <h1>Register</h1>
           <form
@@ -116,7 +116,11 @@ export default function Register(props: Props) {
                 />
               </label>
 
-              <button type="submit" className="btn btn-primary btn-lg">
+              <button
+                data-cy="register-button"
+                type="submit"
+                className="btn btn-primary btn-lg"
+              >
                 Register
               </button>
             </div>
@@ -130,6 +134,13 @@ export default function Register(props: Props) {
               </div>
             ))}
           </form>
+        </div>
+        <div className="col-md-8">
+          <img
+            src="https://dummyimage.com/600x400/000/fff"
+            alt="Registration"
+            className="mx-auto d-block"
+          />
         </div>
       </div>
     </>

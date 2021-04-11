@@ -35,11 +35,16 @@ export default function MyGames(props) {
         <title>My Cart</title>
       </Head>
       {showRentalSuccess ? (
-        <div className="alert alert-primary mb-5" role="alert">
-          The games are yours - have fun!{' '}
-          <span role="img" aria-label="Smiley">
-            😊
-          </span>
+        <div className="text-center">
+          <h1>Booked!</h1>
+          <p>
+            A courier will pick up your games and deliver them within an hour.
+          </p>
+          <img
+            src="https://dummyimage.com/600x400/000/fff"
+            alt="Login"
+            className="mt-5"
+          />
         </div>
       ) : (
         <>
@@ -88,6 +93,7 @@ export default function MyGames(props) {
               </table>
 
               <button
+                data-cy="rent-games-button"
                 type="button"
                 className="btn btn-primary mb-5"
                 disabled={showRentalSuccess}
