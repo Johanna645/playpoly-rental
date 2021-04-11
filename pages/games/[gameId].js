@@ -57,8 +57,9 @@ export default function Game(props) {
           </div>
           <div className="col-6">
             <img
-              src="/games/pictionary.jpeg"
-              alt="{props.game.name} cover"
+              src={`/games/${props.game.id}.jpg`}
+              alt={`${props.game.name} cover`}
+              width="500"
               className="game-cover"
             />
           </div>
@@ -73,6 +74,7 @@ export default function Game(props) {
               <button
                 id="booking"
                 className="btn btn-primary"
+                data-cy="add-to-cart-button"
                 disabled={showBookingSuccess}
                 onClick={() => {
                   const newBooking = addGameToBookings(bookings, props.game.id);
