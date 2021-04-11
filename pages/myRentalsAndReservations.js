@@ -42,7 +42,7 @@ export default function Profile(props) {
         </thead>
         <tbody>
           {props.rentals.map((game) => (
-            <tr key={`game-${game.name}`}>
+            <tr data-cy="rented-game" key={`game-${game.name}`}>
               <td>
                 <Link href={`/games/${game.id}`}>
                   <a>{game.name}</a>
