@@ -7,6 +7,12 @@ exports.up = async (sql) => {
 		ADD COLUMN
 			phone TEXT
   `;
+
+  await sql`
+    UPDATE users
+    SET email = 'playpoly.rental+admin@gmail.com'
+    WHERE id = 1
+  `;
 };
 
 exports.down = async (sql) => {
