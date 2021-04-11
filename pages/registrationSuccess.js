@@ -18,8 +18,9 @@ export default function Home() {
           .
         </p>
         <img
-          src="https://dummyimage.com/600x400/000/fff"
+          src="/other/dice-hand.jpg"
           alt="Login"
+          width="700"
           className="mt-5"
         />
       </div>

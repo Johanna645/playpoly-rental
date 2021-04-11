@@ -106,8 +106,9 @@ export default function Login(props: Props) {
         </div>
         <div className="col-md-8">
           <img
-            src="https://dummyimage.com/600x400/000/fff"
+            src="/other/stack.jpg"
             alt="Login"
+            width="700"
             className="mx-auto d-block"
           />
         </div>

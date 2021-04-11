@@ -21,8 +21,9 @@ export default function Logout(props: Props) {
         <h1>Logged out</h1>
         <p>See you next time!</p>
         <img
-          src="https://dummyimage.com/600x400/000/fff"
+          src="/other/pawn.jpg"
           alt="Logged out"
+          width="700"
           className="mt-5"
         />
       </div>

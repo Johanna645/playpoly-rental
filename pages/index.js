@@ -7,10 +7,10 @@ export default function Home() {
       <Head>
         <title>Playpoly Boardgames Rental</title>
       </Head>
-      <div className="row">
-        <div className="col-12">
-          <h1 className="text-center">Get the Boardgames you Love!</h1>
-          <p className="text-center mb-5">
+      <div className="row gy-5">
+        <div className="col-12 text-center">
+          <h1>Get the Boardgames you Love!</h1>
+          <p>
             Register, rent and play - all year round with a small annual fee!
           </p>
         </div>
@@ -34,6 +34,9 @@ export default function Home() {
             Have a good time playing the best board and card games with your
             friends and family!
           </p>
+        </div>
+        <div className="col-12 text-center">
+          {/* <img src="/other/cards.jpg" alt="Login" height="400" /> */}
         </div>
       </div>
     </>

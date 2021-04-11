@@ -41,8 +41,9 @@ export default function MyGames(props) {
             A courier will pick up your games and deliver them within an hour.
           </p>
           <img
-            src="https://dummyimage.com/600x400/000/fff"
+            src="/other/woman-games.jpg"
             alt="Login"
+            height="700"
             className="mt-5"
           />
         </div>
