@@ -6,9 +6,9 @@ exports.up = async (sql) => {
 
   await sql`
      INSERT INTO users
-       (username, password_hash)
+       (username, password_hash, email)
      VALUES
-       ('tester', ${passwordHash})
+       ('tester', ${passwordHash}, 'playpoly.rental+tester@gmail.com')
 			 `;
 
   await sql`
