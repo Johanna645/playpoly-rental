@@ -11,7 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { username, password, csrfToken } = req.body;
+  const { username, password, email, phoneNumber, csrfToken } = req.body;
   const sessionToken = req.cookies.session;
 
   // to make sure people cannot register without a matching csrf token
@@ -33,7 +33,7 @@ export default async function handler(
   }
 
   const passwordHash = await hashPassword(password);
-  const user = await createUser(username, passwordHash);
+  const user = await createUser(username, passwordHash, email, phoneNumber);
 
   res.send({ user: user });
 }
