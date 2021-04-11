@@ -32,7 +32,7 @@ function camelcaseRecords(records) {
 }
 
 export async function getAllGames() {
-  const games = await sql`SELECT * FROM games`;
+  const games = await sql`SELECT * FROM games ORDER BY name`;
   return camelcaseRecords(games);
 }
 
@@ -222,7 +222,7 @@ export async function handleReservationPullback(gameId) {
 }
 
 export async function getAllUsers() {
-  const users = await sql`SELECT * FROM users`;
+  const users = await sql`SELECT * FROM users ORDER BY username`;
   return camelcaseRecords(users);
 }
 
