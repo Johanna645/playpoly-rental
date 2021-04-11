@@ -1,4 +1,3 @@
-import { reset } from 'cypress/types/sinon';
 import {
   createReservation,
   getUserIdFromSessions,
