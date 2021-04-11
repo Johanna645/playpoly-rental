@@ -1,3 +1,4 @@
+import { reset } from 'cypress/types/sinon';
 import {
   createReservation,
   getUserIdFromSessions,
@@ -15,15 +16,16 @@ export default async function handler(req, res) {
   }
 
   const gameId = req.query.idReservation;
-  console.log('test to see what gameId in reservation is', gameId);
-
   if (!gameId) {
     return res.status(404).send({ message: 'No match found' });
   }
 
+  console.log('reservationId is ... ', gameId);
+
   if (req.method === 'PATCH') {
-    const updatedGame = await handleReservationPullback(gameId);
-    res.json(updatedGame);
+    await handleReservationPullback(gameId);
+    console.log('updated database');
+    return res.status(200).send({ message: 'Reservation cancelled' });
   }
 
   const userId = await getUserIdFromSessions(token);
