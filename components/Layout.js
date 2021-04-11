@@ -39,7 +39,7 @@ export default function Layout(props) {
                 {props.isSessionValid && (
                   <li className="nav-item">
                     <Link href="/myGames">
-                      <a className="nav-link">
+                      <a data-cy="header-cart" className="nav-link">
                         {/* embed a cart icon */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,9 @@ export default function Layout(props) {
                     )}
                     <li className="nav-item">
                       <Link href="/myRentalsAndReservations">
-                        <a className="nav-link">My Games</a>
+                        <a data-cy="header-my-games" className="nav-link">
+                          My Games
+                        </a>
                       </Link>
                     </li>
 
