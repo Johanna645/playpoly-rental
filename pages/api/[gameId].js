@@ -35,9 +35,12 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'PATCH') {
+    // get reservation first ..
+    const reservation = await getReservation(gameId);
+
+    // .. then update the game as returned and remove the reservation
     const updatedGame = await handleRentalReturn(gameId);
 
-    const reservation = await getReservation(gameId);
     if (reservation) {
       // create reusable transporter object using the default SMTP transport
       const transporter = nodemailer.createTransport(
