@@ -48,6 +48,16 @@ form {
   padding-left: 3em;
 }
 
+// .. under tables
+table {
+  margin-bottom: 3em !important;
+}
+
+// .. above h2
+h2 {
+  margin-top: $spacer !important;
+}
+
 // import Google Web Fonts
 
 // https://fonts.google.com/specimen/Roboto
