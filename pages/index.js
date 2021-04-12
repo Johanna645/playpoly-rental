@@ -36,7 +36,7 @@ export default function Home() {
           </p>
         </div>
         <div className="col-12 text-center">
-          {/* <img src="/other/cards.jpg" alt="Login" height="400" /> */}
+          <img src="/other/cards.jpg" alt="Login" height="400" />
         </div>
       </div>
     </>
