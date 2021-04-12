@@ -332,25 +332,3 @@ export async function getServerSideProps() {
 
   return { props: { games: games, users: users } };
 }
-// export async function getServerSideProps(context) {
-//   const {
-//     getSingleUser,
-//     makeUserAdmin,
-//     getAllGames,
-//     getSingleGame,
-//   } = await import('../../../util/database');
-
-//   const user = await getSingleUser(context.query.userId);
-//   const userId = user.userId;
-
-//   const userAdmin = await makeUserAdmin(userId);
-
-//   const allGames = await getAllGames();
-//   const gameId = context.query.gameId;
-
-//   const game = await getSingleGame(gameId);
-
-//   return {
-//     props: { user: user, makeUserAdmin: userAdmin, game: game || null },
-//   };
-// }
