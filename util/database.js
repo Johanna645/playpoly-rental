@@ -1,21 +1,20 @@
 import { generateToken } from './sessions';
 import postgres from 'postgres';
 import camelcaseKeys from 'camelcase-keys';
-import { serializeEmptyCookieServerSide } from './cookies';
-import { getCookieParser } from 'next/dist/next-server/server/api-utils';
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
+
 require('dotenv-safe').config();
 
-// const camelcaseKeys = require('camelcase-keys');
-
-// import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
-
-// setPostgresDefaultsOnHeroku(); and then some other lines about heroku
+setPostgresDefaultsOnHeroku();
 
 function connectOneTimeToDatabase() {
   let sql;
 
   if (process.env.NODE_ENV === 'production') {
-    sql = postgres({ ssl: true });
+    // Heroku needs SSL connections but
+    // has an "unauthorized" certificate
+    // https://devcenter.heroku.com/changelog-items/852
+    sql = postgres({ ssl: { rejectUnauthorized: false } });
   } else {
     if (!globalThis._postgreSqlClient) {
       globalThis._postgreSqlClient = postgres();
@@ -176,7 +175,8 @@ export async function handleRentalReturn(gameId) {
   UPDATE
     games
   SET
-    user_id_rental = null
+    user_id_rental = null,
+    user_id_reservation = null
   WHERE
     id = ${gameId}
   `;
