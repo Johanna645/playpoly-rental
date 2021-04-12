@@ -161,14 +161,14 @@ export default function Manage(props) {
         <thead>
           <tr>
             <th scope="col">Game</th>
-            <th scope="col" colspan="2">
+            <th scope="col" colSpan="2">
               {' '}
             </th>
           </tr>
         </thead>
         <tbody>
           {props.games.map((game) => (
-            <tr key={`game-${game.id}`}>
+            <tr data-cy="admin-page-games-list" key={`game-${game.id}`}>
               <td>
                 <Link href={`/games/${game.id}`}>
                   <a>{game.name}</a>
@@ -177,6 +177,7 @@ export default function Manage(props) {
               <td>
                 {game.userIdRental !== null && !showReturnSuccess && (
                   <button
+                    data-cy="admin-return-button"
                     type="button"
                     className="btn btn-primary btn-sm mr-3"
                     value="Return"
@@ -260,9 +261,9 @@ export default function Manage(props) {
       <table className="table table-striped">
         <thead>
           <tr>
-            {/* <th scope="col">#</th> */}
             <th scope="col">Username</th>
-            <th scope="col">Contact</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
             <th scope="col">Admin</th>
             <th scope="col">Remove</th>
           </tr>
@@ -270,11 +271,9 @@ export default function Manage(props) {
         <tbody>
           {props.users.map((user) => (
             <tr key={user.username}>
-              {/* <th scope="row">{user.id}</th> */}
               <td>{user.username}</td>
-              <td>
-                <p>placeholder for contact</p>
-              </td>
+              <td>{user.email}</td>
+              <td>{user.phone}</td>
               <td>
                 <div className="form-check">
                   <input

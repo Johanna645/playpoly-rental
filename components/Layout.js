@@ -63,7 +63,9 @@ export default function Layout(props) {
                     {props.isUserAdmin && (
                       <li className="nav-item">
                         <Link href="/admin/games/manage">
-                          <a className="nav-link">Admin</a>
+                          <a data-cy="header-admin" className="nav-link">
+                            Admin
+                          </a>
                         </Link>
                       </li>
                     )}
