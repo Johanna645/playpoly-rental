@@ -2,14 +2,16 @@ import Head from 'next/head';
 
 // here just a mock version, so to have an idea how to join the tables, change names then later to fit games!
 export default function SingleTeamMember(props) {
-  if(!props.teamMember) {
+  if (!props.teamMember) {
     return (
       <>
-      <Head><title>Team member not found</title></Head>
-      <h1>team member not found</h1>
+        <Head>
+          <title>Team member not found</title>
+        </Head>
+        <h1>team member not found</h1>
       </>
     );
-  };
+  }
 
   return (
     <>
@@ -33,5 +35,4 @@ export async function getServerSideProps(context) {
   return {
     props: { teamMember: teamMember || null },
   };
-}
 }
