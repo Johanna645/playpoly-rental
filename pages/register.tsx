@@ -70,8 +70,6 @@ export default function Register(props: Props) {
                   type="text"
                   className="form-control"
                   value={username}
-                  minLength="1"
-                  maxLength="100"
                   required
                   onChange={(event) => setUsername(event.currentTarget.value)}
                 />
@@ -83,8 +81,6 @@ export default function Register(props: Props) {
                   type="password"
                   className="form-control"
                   value={password}
-                  minLength="1"
-                  maxLength="100"
                   required
                   onChange={(event) => setPassword(event.currentTarget.value)}
                 />
