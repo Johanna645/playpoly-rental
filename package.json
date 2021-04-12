@@ -2,10 +2,6 @@
   "name": "playpoly-rental",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "yarn": "1.22.10",
-    "node": "15.2.1"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
